@@ -2,33 +2,11 @@ from pyramid.view import view_config
 from pyramid.i18n import TranslationStringFactory
 from cone.tile import tile
 from cone.app.browser import render_main_template
-from cone.app.browser.actions import LinkAction
-from cone.app.browser.contextmenu import context_menu
 from cone.app.browser.layout import ProtectedContentTile
 from cone.app.browser.utils import make_url
 
 
 _ = TranslationStringFactory('cone.fileupload')
-
-
-# class FileUploadAction(LinkAction):
-#     id = 'toolbaraction-fileupload'
-#     css = ''
-#     icon = 'toolbaricon-fileupload'
-#     title = _('fileupload', default=u'File Upload')
-#     action = 'fileupload:#content:inner'
-#     href = LinkAction.target
-# 
-#     @property
-#     def display(self):
-#         return isinstance(self.model, Slide)
-# 
-#     @property
-#     def selected(self):
-#         return self.action_scope == 'fileupload'
-# 
-# 
-# context_menu['contentviews']['fileupload'] = FileUploadAction(True)
 
 
 UPLOAD_TEMPLATE = """
@@ -119,9 +97,11 @@ class FileUploadTile(ProtectedContentTile):
 
     @property
     def upload_url(self):
-        return make_url(self.request,
-                        node=self.model,
-                        resource='fileupload_handler')
+        return make_url(
+            self.request,
+            node=self.model,
+            resource='fileupload_handle'
+        )
 
 
 @view_config('fileupload', permission='add')
@@ -129,6 +109,80 @@ def fileupload(model, request):
     return render_main_template(model, request, 'fileupload')
 
 
-@view_config(name='fileupload_handler', permission='add')
-def fileupload_handler(model, request):
+UNKNOWN_MIMETYPE = object()
+
+
+@view_config(
+    name='fileupload_handle',
+    accept='application/json',
+    renderer='json',
+    permission='add')
+class FileUploadHandle(object):
+
+    def __init__(self, model, request):
+        self.model = model
+        self.request = request
+
+    def __call__(self):
+        result = dict()
+        result['files'] = self.read_existing()
+        for filedata in self.request.params.values():
+            mimetype = filedata.type or UNKNOWN_MIMETYPE
+            filename = filedata.filename
+            stream = filedata.file
+            if stream:
+                stream.seek(0, 2)
+                size = stream.tell()
+                stream.seek(0)
+            else:
+                result['files'].append({
+                    'name': filename,
+                    'size': 0,
+                    'error': 'No upload stream'
+                })
+                continue
+            result['files'].append(
+                self.create_file(stream, filename, mimetype)
+            )
+        return result
+
+    def read_existing(self):
+        """Read existing files in context and return a list of dicts containing
+        client data.
+
+        [
+            {
+                'name': 'pic.jpg',
+                'size': 841946,
+                'url': 'http://example.org/pic.jpg',
+                'thumbnailUrl': 'http://example.org/thumbnail/pic.jpg',
+                'deleteUrl': 'http://example.org/pic.jpg',
+                'deleteType': 'POST',
+            }
+        ]
+        """
+        return []
+
+    def create_file(self, stream, filename, mimetype):
+        """Create file by uploaded stream and return client data dict.
+
+        {
+            'name': 'pic.jpg',
+            'size': 841946,
+            'url': 'http://example.org/pic.jpg',
+            'thumbnailUrl': 'http://example.org/thumbnail/pic.jpg',
+            'deleteUrl': 'http://example.org/pic.jpg',
+            'deleteType': 'POST',
+        }
+        """
+        raise NotImplementedError(u'Abstract ``FileUploadHandle`` does not '
+                                  u'implement ``create_file``')
+
+
+@view_config(
+    name='filedelete_handle',
+    accept='application/json',
+    renderer='json',
+    permission='delete')
+def filedelete_handle(model, request):
     pass

@@ -25,7 +25,7 @@ js.protected.append('fileupload-static/js/jquery.fileupload-audio.js')
 js.protected.append('fileupload-static/js/jquery.fileupload-video.js')
 js.protected.append('fileupload-static/js/jquery.fileupload-validate.js')
 js.protected.append('fileupload-static/js/jquery.fileupload-ui.js')
-#js.protected.append('fileupload-static/js/main.js')
+js.protected.append('fileupload-static/js/cone.fileupload.js')
 
 
 # application startup initialization
