@@ -94,6 +94,7 @@ DOWNLOAD_TEMPLATE = """
 class FileUploadTile(ProtectedContentTile):
     upload_template = UPLOAD_TEMPLATE
     download_template = DOWNLOAD_TEMPLATE
+    accept_file_types = '' # e.g. /(\.|\/)(gif|jpe?g|png)$/i
 
     @property
     def upload_url(self):
@@ -175,8 +176,12 @@ class FileUploadHandle(object):
             'deleteType': 'POST',
         }
         """
-        raise NotImplementedError(u'Abstract ``FileUploadHandle`` does not '
-                                  u'implement ``create_file``')
+        return {
+            'name': filename,
+            'size': 0,
+            'error': 'Abstract ``FileUploadHandle`` does not implement ' +\
+                     '``create_file``'
+        }
 
 
 @view_config(
