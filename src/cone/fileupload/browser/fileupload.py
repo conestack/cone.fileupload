@@ -1,8 +1,10 @@
 from pyramid.view import view_config
 from pyramid.i18n import TranslationStringFactory
-from cone.tile import tile
+from cone.tile import (
+    tile,
+    Tile,
+)
 from cone.app.browser import render_main_template
-from cone.app.browser.layout import ProtectedContentTile
 from cone.app.browser.utils import make_url
 
 
@@ -91,10 +93,16 @@ DOWNLOAD_TEMPLATE = """
 
 
 @tile('fileupload', 'fileupload.pt', permission='add')
-class FileUploadTile(ProtectedContentTile):
+class FileUploadTile(Tile):
+    """Register this tile for specific context if jQuery file upload settings
+    should be customized.
+    """
     upload_template = UPLOAD_TEMPLATE
     download_template = DOWNLOAD_TEMPLATE
     accept_file_types = '' # e.g. /(\.|\/)(gif|jpe?g|png)$/i
+    disable_image_preview = False
+    disable_video_preview = False
+    disable_audio_preview = False
 
     @property
     def upload_url(self):
@@ -107,9 +115,12 @@ class FileUploadTile(ProtectedContentTile):
 
 @view_config('fileupload', permission='add')
 def fileupload(model, request):
+    """Fileupload as traversable view.
+    """
     return render_main_template(model, request, 'fileupload')
 
 
+# unknown mimetype marker
 UNKNOWN_MIMETYPE = object()
 
 
@@ -119,6 +130,14 @@ UNKNOWN_MIMETYPE = object()
     renderer='json',
     permission='add')
 class FileUploadHandle(object):
+    """Abstract file upload handle.
+
+    Subclass this object and register ``fileupload_handle`` tile for specific
+    context.
+
+    Methods ``read_existing`` and ``create_file`` are supposed to be
+    implemented on deriving object.
+    """
 
     def __init__(self, model, request):
         self.model = model
@@ -126,25 +145,18 @@ class FileUploadHandle(object):
 
     def __call__(self):
         result = dict()
-        result['files'] = self.read_existing()
-        for filedata in self.request.params.values():
-            mimetype = filedata.type or UNKNOWN_MIMETYPE
-            filename = filedata.filename
-            stream = filedata.file
-            if stream:
-                stream.seek(0, 2)
-                size = stream.tell()
-                stream.seek(0)
-            else:
-                result['files'].append({
-                    'name': filename,
-                    'size': 0,
-                    'error': 'No upload stream'
-                })
-                continue
-            result['files'].append(
-                self.create_file(stream, filename, mimetype)
-            )
+        # initial reading
+        if self.request.method == 'GET':
+            result['files'] = self.read_existing()
+        # file upload
+        elif self.request.method == 'POST':
+            result['files'] = list()
+            for filedata in self.request.params.values():
+                mimetype = filedata.type or UNKNOWN_MIMETYPE
+                filename = filedata.filename
+                stream = filedata.file
+                res = self.create_file(stream, filename, mimetype)
+                result['files'].append(res)
         return result
 
     def read_existing(self):
@@ -157,8 +169,8 @@ class FileUploadHandle(object):
                 'size': 841946,
                 'url': 'http://example.org/pic.jpg',
                 'thumbnailUrl': 'http://example.org/thumbnail/pic.jpg',
-                'deleteUrl': 'http://example.org/pic.jpg',
-                'deleteType': 'POST',
+                'deleteUrl': 'http://example.org/pic.jpg/filedelete_handle',
+                'deleteType': 'GET',
             }
         ]
         """
@@ -172,8 +184,8 @@ class FileUploadHandle(object):
             'size': 841946,
             'url': 'http://example.org/pic.jpg',
             'thumbnailUrl': 'http://example.org/thumbnail/pic.jpg',
-            'deleteUrl': 'http://example.org/pic.jpg',
-            'deleteType': 'POST',
+            'deleteUrl': 'http://example.org/pic.jpg/filedelete_handle',
+            'deleteType': 'GET',
         }
         """
         return {
@@ -190,4 +202,16 @@ class FileUploadHandle(object):
     renderer='json',
     permission='delete')
 def filedelete_handle(model, request):
-    pass
+    """Delete file and return client data.
+
+    {
+        'files': [{
+            'pic.jpg': True
+        }]
+    }
+    """
+    parent = model.parent
+    name = model.name
+    del parent[name]
+    parent()
+    return {'files': [{name: True}]}

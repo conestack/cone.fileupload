@@ -7,7 +7,6 @@
     $(document).ready(function() {
         // initial binding
         cone_fileupload.binder();
-
         // add binders to bdajax binding callbacks
         $.extend(bdajax.binders, {
             cone_fileupload_binder: cone_fileupload.binder
@@ -23,9 +22,13 @@
                 return;
             }
             // initialize fileupload plugin
-            fileupload.fileupload();
+            fileupload.fileupload({
+                disableImagePreview: fileupload.data('disable_image_preview'),
+                disableVideoPreview: fileupload.data('disable_video_preview'),
+                disableAudioPreview: fileupload.data('disable_audio_preview')
+            });
             // check accept file types
-            accept_file_types = fileupload.data('accept');
+            accept_file_types = fileupload.data('accept_file_types');
             if (accept_file_types) {
                 console.log('accept_file_types present');
                 fileupload.fileupload('option', {
