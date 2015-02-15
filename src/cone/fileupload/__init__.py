@@ -8,7 +8,7 @@ logger = logging.getLogger('cone.fileupload')
 
 # protected CSS
 css = cone.app.cfg.css
-css.protected.append('fileupload-static/css/jquery.fileupload-ui.css')
+css.protected.append('fileupload-static/css/jquery.fileupload.css')
 
 
 # protected JS
@@ -25,7 +25,7 @@ js.protected.append('fileupload-static/js/jquery.fileupload-audio.js')
 js.protected.append('fileupload-static/js/jquery.fileupload-video.js')
 js.protected.append('fileupload-static/js/jquery.fileupload-validate.js')
 js.protected.append('fileupload-static/js/jquery.fileupload-ui.js')
-js.protected.append('fileupload-static/js/main.js')
+#js.protected.append('fileupload-static/js/main.js')
 
 
 # application startup initialization
