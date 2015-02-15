@@ -30,7 +30,6 @@
             // check accept file types
             accept_file_types = fileupload.data('accept_file_types');
             if (accept_file_types) {
-                console.log('accept_file_types present');
                 fileupload.fileupload('option', {
                     acceptFileTypes: eval(accept_file_types)
                 });
