@@ -33,10 +33,20 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
-          'cone.app',
+        'cone.app',
     ],
     extras_require = dict(
+        test=[
+            'interlude',
+            'plone.testing',
+            'unittest2',
+        ],
     ),
+    tests_require=[
+        'interlude',
+        'plone.testing',
+        'unittest2',
+    ],
     test_suite = "cone.fileupload.tests.test_suite",
     entry_points="""\
     """
