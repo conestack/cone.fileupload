@@ -72,6 +72,7 @@
     </table>
   </form>
 
+  <tal:i18n_messages replace="structure context.i18n_messages" />
   <tal:upload_template replace="structure context.upload_template" />
   <tal:download_template replace="structure context.download_template" />
 

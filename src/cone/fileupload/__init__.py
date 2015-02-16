@@ -30,6 +30,9 @@ js.protected.append('fileupload-static/js/cone.fileupload.js')
 
 # application startup initialization
 def initialize_fileupload(config, global_config, local_config):
+    # add translation
+    config.add_translation_dirs('cone.fileupload:locale/')
+
     # static resources
     config.add_view(
         'cone.fileupload.browser.static_resources',

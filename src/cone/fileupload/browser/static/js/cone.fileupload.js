@@ -23,6 +23,7 @@
             }
             // initialize fileupload plugin
             fileupload.fileupload({
+                messages: fileupload_i18n_messages,
                 disableImagePreview: fileupload.data('disable_image_preview'),
                 disableVideoPreview: fileupload.data('disable_video_preview'),
                 disableAudioPreview: fileupload.data('disable_audio_preview')

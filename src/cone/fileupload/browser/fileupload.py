@@ -1,5 +1,8 @@
 from pyramid.view import view_config
-from pyramid.i18n import TranslationStringFactory
+from pyramid.i18n import (
+    TranslationStringFactory,
+    get_localizer,
+)
 from cone.tile import (
     tile,
     Tile,
@@ -11,7 +14,16 @@ from cone.app.browser.utils import make_url
 _ = TranslationStringFactory('cone.fileupload')
 
 
-UPLOAD_TEMPLATE = """
+I18N_MESSAGES = u"""
+<script type="text/javascript">
+    var fileupload_i18n_messages = new Object();
+    fileupload_i18n_messages.uploadedBytes = '{uploaded_bytes}';
+    fileupload_i18n_messages.acceptFileTypes = '{accept_file_types}';
+</script>
+"""
+
+
+UPLOAD_TEMPLATE = u"""
 <script id="template-upload" type="text/x-tmpl">
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-upload fade">
@@ -23,20 +35,28 @@ UPLOAD_TEMPLATE = """
             <strong class="error text-danger"></strong>
         </td>
         <td>
-            <p class="size">Processing...</p>
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+            <p class="size">{processing}</p>
+            <div class="progress progress-striped active"
+                 role="progressbar"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 aria-valuenow="0">
+                <div class="progress-bar progress-bar-success"
+                     style="width:0%;">
+                </div>
+            </div>
         </td>
         <td>
             {{% if (!i && !o.options.autoUpload) {{ %}}
                 <button class="btn btn-primary start" disabled>
                     <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start</span>
+                    <span>{start}</span>
                 </button>
             {{% }} %}}
             {{% if (!i) {{ %}}
                 <button class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel</span>
+                    <span>{cancel}</span>
                 </button>
             {{% }} %}}
         </td>
@@ -46,27 +66,38 @@ UPLOAD_TEMPLATE = """
 """
 
 
-DOWNLOAD_TEMPLATE = """
+DOWNLOAD_TEMPLATE = u"""
 <script id="template-download" type="text/x-tmpl">
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-download fade">
         <td>
             <span class="preview">
                 {{% if (file.thumbnailUrl) {{ %}}
-                    <a href="{{%=file.url%}}" title="{{%=file.name%}}" download="{{%=file.name%}}" data-gallery><img src="{{%=file.thumbnailUrl%}}"></a>
+                    <a href="{{%=file.url%}}"
+                       title="{{%=file.name%}}"
+                       download="{{%=file.name%}}"
+                       data-gallery><img src="{{%=file.thumbnailUrl%}}"></a>
                 {{% }} %}}
             </span>
         </td>
         <td>
             <p class="name">
                 {{% if (file.url) {{ %}}
-                    <a href="{{%=file.url%}}" title="{{%=file.name%}}" download="{{%=file.name%}}" {{%=file.thumbnailUrl?'data-gallery':''%}}>{{%=file.name%}}</a>
+                    <a href="{{%=file.url%}}"
+                       title="{{%=file.name%}}"
+                       download="{{%=file.name%}}"
+                       {{%=file.thumbnailUrl?'data-gallery':''%}}>
+                        {{%=file.name%}}
+                    </a>
                 {{% }} else {{ %}}
                     <span>{{%=file.name%}}</span>
                 {{% }} %}}
             </p>
             {{% if (file.error) {{ %}}
-                <div><span class="label label-danger">Error</span> {{%=file.error%}}</div>
+                <div>
+                  <span class="label label-danger">{error}</span>
+                  {{%=file.error%}}
+                </div>
             {{% }} %}}
         </td>
         <td>
@@ -74,15 +105,20 @@ DOWNLOAD_TEMPLATE = """
         </td>
         <td>
             {{% if (file.deleteUrl) {{ %}}
-                <button class="btn btn-danger delete" data-type="{{%=file.deleteType%}}" data-url="{{%=file.deleteUrl%}}"{{% if (file.deleteWithCredentials) {{ %}} data-xhr-fields='{{"withCredentials":true}}'{{% }} %}}>
+                <button class="btn btn-danger delete"
+                        data-type="{{%=file.deleteType%}}"
+                        data-url="{{%=file.deleteUrl%}}"
+                        {{% if (file.deleteWithCredentials) {{ %}}
+                        data-xhr-fields='{{"withCredentials":true}}'
+                        {{% }} %}}>
                     <i class="glyphicon glyphicon-trash"></i>
-                    <span>Delete</span>
+                    <span>{delete}</span>
                 </button>
                 <input type="checkbox" name="delete" value="1" class="toggle">
             {{% }} else {{ %}}
                 <button class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel</span>
+                    <span>{cancel}</span>
                 </button>
             {{% }} %}}
         </td>
@@ -103,12 +139,37 @@ class FileUploadTile(Tile):
     disable_audio_preview = False
 
     @property
+    def i18n_messages(self):
+        localizer = get_localizer(self.request)
+        translate = localizer.translate
+        return I18N_MESSAGES.format(
+            uploaded_bytes=translate(
+                _('uploaded_bytes',
+                  default='Uploaded bytes exceed file size')),
+            accept_file_types=translate(
+                _('accept_file_types',
+                  default='File type not allowed')),
+        )
+
+    @property
     def upload_template(self):
-        return UPLOAD_TEMPLATE.format()
+        localizer = get_localizer(self.request)
+        translate = localizer.translate
+        return UPLOAD_TEMPLATE.format(
+            processing=translate(_('processing', default='Processing...')),
+            start=translate(_('start', default='Start')),
+            cancel=translate(_('cancel', default='Cancel')),
+        )
 
     @property
     def download_template(self):
-        return DOWNLOAD_TEMPLATE.format()
+        localizer = get_localizer(self.request)
+        translate = localizer.translate
+        return DOWNLOAD_TEMPLATE.format(
+            error=translate(_('error', default='Error')),
+            delete=translate(_('delete', default='Delete')),
+            cancel=translate(_('cancel', default='Cancel')),
+        )
 
     @property
     def upload_url(self):
