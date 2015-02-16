@@ -33,7 +33,7 @@ So first we need to provide a model.
         (Deny, Everyone, ALL_PERMISSIONS),
     ]
 
-    class ContainerNode(BaseNode):
+    class Container(BaseNode):
         __acl__ = ACL
 
         def __call__(self):
