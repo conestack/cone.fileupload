@@ -114,7 +114,8 @@ If request method is POST, a file upload is assumed::
     >>> filedata.file = StringIO('I am the payload')
 
     >>> request.method = 'POST'
-    >>> request.params['files[]'] = [filedata]
+    >>> request.params['file'] = filedata
+    >>> del request.params['_LOCALE_']
 
     >>> res = abstract_upload_handle()
     >>> res['files'][0]['name']

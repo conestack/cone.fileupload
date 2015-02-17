@@ -218,7 +218,7 @@ class FileUploadHandle(object):
         # file upload
         elif self.request.method == 'POST':
             result['files'] = list()
-            for filedata in self.request.params['files[]']:
+            for filedata in self.request.params.values():
                 mimetype = filedata.type or UNKNOWN_MIMETYPE
                 filename = filedata.filename
                 stream = filedata.file
