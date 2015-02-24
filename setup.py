@@ -5,7 +5,7 @@ from setuptools import (
 )
 
 
-version = '0.1'
+version = '0.2.dev0'
 shortdesc = 'jQuery File Upload integration for cone.app'
 longdesc = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 longdesc += open(os.path.join(os.path.dirname(__file__), 'LICENSE.rst')).read()
