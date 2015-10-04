@@ -1,6 +1,6 @@
-import os
-import logging
 import cone.app
+import logging
+import os
 
 
 logger = logging.getLogger('cone.fileupload')

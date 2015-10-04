@@ -172,7 +172,7 @@ Upload file::
     >>> container.printtree()
     <class 'ContainerNode'>: container
       <class 'File'>: test.txt
-      I am the payload
+        body: 'I am the payload'
 
 Read existing files::
 

@@ -1,10 +1,10 @@
+from cone.app import testing
+from plone.testing import layered
+import cone.app.tests
 import doctest
 import interlude
 import pprint
 import unittest2 as unittest
-from plone.testing import layered
-from cone.app import testing
-import cone.app.tests
 
 optionflags = doctest.NORMALIZE_WHITESPACE | \
               doctest.ELLIPSIS | \
