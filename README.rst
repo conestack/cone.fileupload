@@ -125,10 +125,11 @@ Contributors
 Changes
 =======
 
-0.2 (unreleased)
-----------------
+0.2
+---
 
-- no changes yet.
+- Code organization.
+  [rnix]
 
 0.1
 ---
