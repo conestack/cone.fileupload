@@ -125,6 +125,11 @@ Contributors
 Changes
 =======
 
+0.3 (unreleased)
+----------------
+
+- No changes yet.
+
 0.2
 ---
 
