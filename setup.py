@@ -33,7 +33,7 @@ setup(
         'setuptools',
         'cone.app',
     ],
-    extras_require = dict(
+    extras_require=dict(
         test=[
             'interlude',
             'plone.testing',
@@ -45,7 +45,7 @@ setup(
         'plone.testing',
         'unittest2',
     ],
-    test_suite = "cone.fileupload.tests.test_suite",
+    test_suite="cone.fileupload.tests.test_suite",
     entry_points="""\
     """
 )

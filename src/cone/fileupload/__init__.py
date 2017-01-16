@@ -1,6 +1,5 @@
 import cone.app
 import logging
-import os
 
 
 logger = logging.getLogger('cone.fileupload')
@@ -16,7 +15,7 @@ js = cone.app.cfg.js
 js.protected.append('fileupload-static/js/vendor/tmpl.min.js')
 js.protected.append('fileupload-static/js/vendor/load-image.all.min.js')
 js.protected.append('fileupload-static/js/vendor/canvas-to-blob.min.js')
-js.protected.append('fileupload-static/js/vendor/jquery.blueimp-gallery.min.js')
+js.protected.append('fileupload-static/js/vendor/jquery.blueimp-gallery.min.js')  # noqa
 js.protected.append('fileupload-static/js/jquery.iframe-transport.js')
 js.protected.append('fileupload-static/js/jquery.fileupload.js')
 js.protected.append('fileupload-static/js/jquery.fileupload-process.js')
