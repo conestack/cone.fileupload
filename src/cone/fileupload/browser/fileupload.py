@@ -129,7 +129,7 @@ class FileUploadTile(Tile):
     """Register this tile for specific context if jQuery file upload settings
     should be customized.
     """
-    accept_file_types = '' # e.g. /(\.|\/)(gif|jpe?g|png)$/i
+    accept_file_types = ''  # e.g. /(\.|\/)(gif|jpe?g|png)$/i
     disable_image_preview = False
     disable_video_preview = False
     disable_audio_preview = False
@@ -254,7 +254,7 @@ class FileUploadHandle(object):
         return {
             'name': filename,
             'size': 0,
-            'error': 'Abstract ``FileUploadHandle`` does not implement ' +\
+            'error': 'Abstract ``FileUploadHandle`` does not implement ' +
                      '``create_file``'
         }
 

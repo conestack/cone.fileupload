@@ -1,6 +1,5 @@
 from cone.app import testing
 from plone.testing import layered
-import cone.app.tests
 import doctest
 import interlude
 import pprint
@@ -35,5 +34,6 @@ def test_suite():
         ])
     return suite
 
+
 if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')                 #pragma NO COVERAGE
+    unittest.main(defaultTest='test_suite')  # pragma NO COVERAGE
