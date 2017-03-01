@@ -81,7 +81,7 @@ Traversable fileupload view::
     <Response at ... 200 OK>
 
     >>> response.body
-    '<!DOCTYPE html PUBLIC...'
+    '<!DOCTYPE html...'
 
     >>> response.body.find('<form id="fileupload"') > -1
     True
