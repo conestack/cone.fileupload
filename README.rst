@@ -128,6 +128,9 @@ Changes
 0.3 (unreleased)
 ----------------
 
+- Convert doctests to unittests.
+  [rnix]
+
 - Use ``cone.app.main_hook`` decorator.
   [rnix]
 
