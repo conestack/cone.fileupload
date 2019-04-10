@@ -1,3 +1,7 @@
 *.pyc
+/.coverage
 /src/cone.fileupload.egg-info/
 /dist/
+/py2/
+/py3/
+/htmlcov/

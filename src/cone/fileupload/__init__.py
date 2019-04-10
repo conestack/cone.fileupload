@@ -1,45 +1,39 @@
-import cone.app
+from cone.app import cfg
+from cone.app import main_hook
+from cone.fileupload.browser import static_resources
 import logging
 
 
 logger = logging.getLogger('cone.fileupload')
 
 
-# protected CSS
-css = cone.app.cfg.css
-css.protected.append('fileupload-static/css/jquery.fileupload.css')
+@main_hook
+def initialize_fileupload(config, global_config, settings):
+    # application startup initialization
 
+    # protected CSS
+    cfg.css.protected.append('fileupload-static/css/jquery.fileupload.css')
 
-# protected JS
-js = cone.app.cfg.js
-js.protected.append('fileupload-static/js/vendor/tmpl.min.js')
-js.protected.append('fileupload-static/js/vendor/load-image.all.min.js')
-js.protected.append('fileupload-static/js/vendor/canvas-to-blob.min.js')
-js.protected.append('fileupload-static/js/vendor/jquery.blueimp-gallery.min.js')  # noqa
-js.protected.append('fileupload-static/js/jquery.iframe-transport.js')
-js.protected.append('fileupload-static/js/jquery.fileupload.js')
-js.protected.append('fileupload-static/js/jquery.fileupload-process.js')
-js.protected.append('fileupload-static/js/jquery.fileupload-image.js')
-js.protected.append('fileupload-static/js/jquery.fileupload-audio.js')
-js.protected.append('fileupload-static/js/jquery.fileupload-video.js')
-js.protected.append('fileupload-static/js/jquery.fileupload-validate.js')
-js.protected.append('fileupload-static/js/jquery.fileupload-ui.js')
-js.protected.append('fileupload-static/js/cone.fileupload.js')
+    # protected JS
+    cfg.js.protected.append('fileupload-static/js/vendor/tmpl.min.js')
+    cfg.js.protected.append('fileupload-static/js/vendor/load-image.all.min.js')
+    cfg.js.protected.append('fileupload-static/js/vendor/canvas-to-blob.min.js')
+    cfg.js.protected.append('fileupload-static/js/vendor/jquery.blueimp-gallery.min.js')  # noqa
+    cfg.js.protected.append('fileupload-static/js/jquery.iframe-transport.js')
+    cfg.js.protected.append('fileupload-static/js/jquery.fileupload.js')
+    cfg.js.protected.append('fileupload-static/js/jquery.fileupload-process.js')
+    cfg.js.protected.append('fileupload-static/js/jquery.fileupload-image.js')
+    cfg.js.protected.append('fileupload-static/js/jquery.fileupload-audio.js')
+    cfg.js.protected.append('fileupload-static/js/jquery.fileupload-video.js')
+    cfg.js.protected.append('fileupload-static/js/jquery.fileupload-validate.js')
+    cfg.js.protected.append('fileupload-static/js/jquery.fileupload-ui.js')
+    cfg.js.protected.append('fileupload-static/js/cone.fileupload.js')
 
-
-# application startup initialization
-def initialize_fileupload(config, global_config, local_config):
     # add translation
     config.add_translation_dirs('cone.fileupload:locale/')
 
     # static resources
-    config.add_view(
-        'cone.fileupload.browser.static_resources',
-        name='fileupload-static'
-    )
+    config.add_view(static_resources, name='fileupload-static')
 
     # scan browser package
     config.scan('cone.fileupload.browser')
-
-
-cone.app.register_main_hook(initialize_fileupload)

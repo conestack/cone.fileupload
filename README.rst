@@ -1,3 +1,18 @@
+.. image:: https://img.shields.io/pypi/v/cone.fileupload.svg
+    :target: https://pypi.python.org/pypi/cone.fileupload
+    :alt: Latest PyPI version
+
+.. image:: https://img.shields.io/pypi/dm/cone.fileupload.svg
+    :target: https://pypi.python.org/pypi/cone.fileupload
+    :alt: Number of PyPI downloads
+
+.. image:: https://travis-ci.org/bluedynamics/cone.fileupload.svg?branch=master
+    :target: https://travis-ci.org/bluedynamics/cone.fileupload
+
+.. image:: https://coveralls.io/repos/github/bluedynamics/cone.fileupload/badge.svg?branch=master
+    :target: https://coveralls.io/github/bluedynamics/cone.fileupload?branch=master
+
+
 cone.fileupload
 ===============
 
@@ -93,8 +108,8 @@ Optionally we might want to provide a custom fileupload tile for our model.
     from cone.fileupload.browser.fileupload import FileUploadTile
 
     @tile(
-        'fileupload',
-        'cone.fileupload:browser/fileupload.pt',
+        name='fileupload',
+        path='cone.fileupload:browser/fileupload.pt',
         interface=Container,
         permission='add')
     class ContainerFileUploadTile(FileUploadTile):
@@ -102,18 +117,6 @@ Optionally we might want to provide a custom fileupload tile for our model.
         disable_image_preview = True
         disable_video_preview = True
         disable_audio_preview = True
-
-
-TestCoverage
-------------
-
-Summary of the test coverage report::
-
-  lines   cov%   module   (path)
-     27   100%   cone.fileupload.__init__
-      2   100%   cone.fileupload.browser.__init__
-     89   100%   cone.fileupload.browser.fileupload
-     18   100%   cone.fileupload.tests
 
 
 Contributors
@@ -128,7 +131,20 @@ Changes
 0.3 (unreleased)
 ----------------
 
-- No changes yet.
+- Python 3 compatibility.
+  [rnix]
+
+- Convert doctests to unittests.
+  [rnix]
+
+- Use ``cone.app.main_hook`` decorator.
+  [rnix]
+
+- Move resource registration to main hook.
+  [rnix]
+
+- Upgrade to ``cone.app`` 1.0b1.
+  [rnix]
 
 0.2
 ---
