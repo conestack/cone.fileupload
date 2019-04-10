@@ -124,7 +124,7 @@ DOWNLOAD_TEMPLATE = u"""
 """
 
 
-@tile('fileupload', 'fileupload.pt', permission='add')
+@tile(name='fileupload', path='fileupload.pt', permission='add')
 class FileUploadTile(Tile):
     """Register this tile for specific context if jQuery file upload settings
     should be customized.
@@ -176,7 +176,7 @@ class FileUploadTile(Tile):
         )
 
 
-@view_config('fileupload', permission='add')
+@view_config(name='fileupload', permission='add')
 def fileupload(model, request):
     """Fileupload as traversable view.
     """

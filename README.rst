@@ -93,8 +93,8 @@ Optionally we might want to provide a custom fileupload tile for our model.
     from cone.fileupload.browser.fileupload import FileUploadTile
 
     @tile(
-        'fileupload',
-        'cone.fileupload:browser/fileupload.pt',
+        name='fileupload',
+        path='cone.fileupload:browser/fileupload.pt',
         interface=Container,
         permission='add')
     class ContainerFileUploadTile(FileUploadTile):
@@ -128,7 +128,14 @@ Changes
 0.3 (unreleased)
 ----------------
 
-- No changes yet.
+- Use ``cone.app.main_hook`` decorator.
+  [rnix]
+
+- Move resource registration to main hook.
+  [rnix]
+
+- Upgrade to ``cone.app`` 1.0b1.
+  [rnix]
 
 0.2
 ---
