@@ -1,39 +1,210 @@
+from cgi import FieldStorage
 from cone.app import testing
-from plone.testing import layered
-import doctest
-import interlude
-import pprint
-import unittest2 as unittest
+from cone.app.model import BaseNode
+from cone.fileupload.browser.fileupload import DOWNLOAD_TEMPLATE
+from cone.fileupload.browser.fileupload import filedelete_handle
+from cone.fileupload.browser.fileupload import fileupload
+from cone.fileupload.browser.fileupload import FileUploadHandle
+from cone.fileupload.browser.fileupload import I18N_MESSAGES
+from cone.fileupload.browser.fileupload import UPLOAD_TEMPLATE
+from cone.tile import render_tile
+from cone.tile.tests import TileTestCase
+from pyramid.httpexceptions import HTTPForbidden
+from pyramid.security import ALL_PERMISSIONS
+from pyramid.security import Allow
+from pyramid.security import Deny
+from pyramid.security import Everyone
+from StringIO import StringIO
+import sys
+import unittest
 
-optionflags = doctest.NORMALIZE_WHITESPACE | \
-              doctest.ELLIPSIS | \
-              doctest.REPORT_ONLY_FIRST_FAILURE
 
-layer = testing.security
+class FileuploadLayer(testing.Security):
 
-TESTFILES = [
-    'browser/fileupload.rst',
+    def make_app(self, **kw):
+        super(FileuploadLayer, self).make_app(**{
+            'cone.plugins': 'cone.fileupload'
+        })
+
+
+ACL = [
+    (Allow, 'role:manager', ['add', 'delete']),
+    (Allow, Everyone, ['login']),
+    (Deny, Everyone, ALL_PERMISSIONS)
 ]
 
 
-def test_suite():
+class ContainerNode(BaseNode):
+    __acl__ = ACL
+
+    def __call__(self):
+        pass
+
+
+class File(BaseNode):
+    __acl__ = ACL
+    allow_non_node_childs = True
+
+
+class ContainerFileUploadHandle(FileUploadHandle):
+
+    def create_file(self, stream, filename, mimetype):
+        file = self.model[filename] = File()
+        file['body'] = stream.read()
+        return {
+            'name': filename,
+            'size': len(file['body']),
+            'url': '/{0}'.format(file.name),
+            'deleteUrl': '/{0}/filedelete_handle'.format(file.name),
+            'deleteType': 'GET',
+        }
+
+    def read_existing(self):
+        files = list()
+        for node in self.model.values():
+            files.append({
+                'name': node.name,
+                'size': len(node['body']),
+                'url': '/{0}'.format(node.name),
+                'deleteUrl': '/{0}/filedelete_handle'.format(node.name),
+                'deleteType': 'GET',
+            })
+        return files
+
+
+class TestFileupload(TileTestCase):
+    layer = FileuploadLayer()
+
+    def test_default_templates(self):
+        # Default i18n messages, upload and download templates
+        self.checkOutput("""
+        <script type="text/javascript">...</script>
+        """, I18N_MESSAGES)
+
+        self.checkOutput("""
+        <script id="template-upload" type="text/x-tmpl">...</script>
+        """, UPLOAD_TEMPLATE)
+
+        self.checkOutput("""
+        <script id="template-download" type="text/x-tmpl">...</script>
+        """, DOWNLOAD_TEMPLATE)
+
+    def test_fileupload_tile(self):
+        container = ContainerNode(name='container')
+
+        # Render fileupload tile unauthorized
+        request = self.layer.new_request()
+        err = self.expectError(
+            HTTPForbidden,
+            render_tile,
+            container,
+            request,
+            'fileupload'
+        )
+        self.checkOutput("""
+        Unauthorized: tile
+        <cone.fileupload.browser.fileupload.FileUploadTile object at ...>
+        failed permission check
+        """, str(err))
+
+        # Render fileupload tile authorized
+        with self.layer.authenticated('manager'):
+            res = render_tile(container, request, 'fileupload')
+            self.assertTrue(res.find('<form id="fileupload"') > -1)
+
+    def test_fileupload_view(self):
+        # Traversable fileupload view
+        container = ContainerNode(name='container')
+        request = self.layer.new_request()
+
+        with self.layer.authenticated('manager'):
+            response = fileupload(container, request)
+
+        self.assertTrue(response.body.startswith('<!DOCTYPE html'))
+        self.assertTrue(response.body.find('<form id="fileupload"') > -1)
+
+    def test_fileupload_handle(self):
+        # Abstract file upload handle
+        container = ContainerNode(name='container')
+        request = self.layer.new_request()
+        abstract_upload_handle = FileUploadHandle(container, request)
+
+        # If request method is GET, existing files are read. Abstract
+        # implementation returns empty result
+        self.assertEqual(abstract_upload_handle(), {'files': []})
+
+        # If request method is POST, a file upload is assumed
+        filedata = FieldStorage()
+        filedata.type = 'text/plain'
+        filedata.filename = 'test.txt'
+        filedata.file = StringIO('I am the payload')
+
+        request.method = 'POST'
+        request.params['file'] = filedata
+        del request.params['_LOCALE_']
+
+        res = abstract_upload_handle()
+        self.assertEqual(res['files'][0]['name'], 'test.txt')
+        self.assertEqual(res['files'][0]['size'], 0)
+        self.assertEqual(
+            res['files'][0]['error'],
+            'Abstract ``FileUploadHandle`` does not implement ``create_file``'
+        )
+
+        # Concrete implementation of file upload handle
+        upload_handle = ContainerFileUploadHandle(container, request)
+
+        # Upload file
+        res = upload_handle()
+        self.assertEqual(res['files'], [{
+            'url': '/test.txt',
+            'deleteType': 'GET',
+            'deleteUrl': '/test.txt/filedelete_handle',
+            'name': 'test.txt',
+            'size': 16
+        }])
+
+        self.checkOutput("""
+        <class 'cone.fileupload.tests.ContainerNode'>: container
+          <class 'cone.fileupload.tests.File'>: test.txt
+            body: 'I am the payload'
+        """, container.treerepr())
+
+        # Read existing files
+        request = self.layer.new_request()
+        upload_handle = ContainerFileUploadHandle(container, request)
+        self.assertEqual(upload_handle()['files'], [{
+            'url': '/test.txt',
+            'deleteType': 'GET',
+            'deleteUrl': '/test.txt/filedelete_handle',
+            'name': 'test.txt',
+            'size': 16
+        }])
+
+        # Test file delete handle
+        file = container['test.txt']
+        request = self.layer.new_request()
+        self.assertEqual(
+            filedelete_handle(file, request),
+            {'files': [{'test.txt': True}]}
+        )
+
+        self.checkOutput("""
+        <class 'cone.fileupload.tests.ContainerNode'>: container
+        """, container.treerepr())
+
+
+def run_tests():
+    from cone.fileupload import tests
+    from zope.testrunner.runner import Runner
+
     suite = unittest.TestSuite()
-    suite.addTests([
-        layered(
-            doctest.DocFileSuite(
-                testfile,
-                globs={'interact': interlude.interact,
-                       'pprint': pprint.pprint,
-                       'pp': pprint.pprint,
-                       },
-                optionflags=optionflags,
-                ),
-            layer=layer,
-            )
-        for testfile in TESTFILES
-        ])
-    return suite
+    suite.addTest(unittest.findTestCases(tests))
+
+    runner = Runner(found_suites=[suite])
+    runner.run()
+    sys.exit(int(runner.failed))
 
 
 if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')  #pragma NO COVERAGE
+    run_tests()
