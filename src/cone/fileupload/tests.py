@@ -14,7 +14,10 @@ from pyramid.security import ALL_PERMISSIONS
 from pyramid.security import Allow
 from pyramid.security import Deny
 from pyramid.security import Everyone
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:  # pragma: no cover
+    from io import StringIO
 import sys
 import unittest
 
@@ -120,8 +123,8 @@ class TestFileupload(TileTestCase):
         with self.layer.authenticated('manager'):
             response = fileupload(container, request)
 
-        self.assertTrue(response.body.startswith('<!DOCTYPE html'))
-        self.assertTrue(response.body.find('<form id="fileupload"') > -1)
+        self.assertTrue(response.text.startswith('<!DOCTYPE html'))
+        self.assertTrue(response.text.find('<form id="fileupload"') > -1)
 
     def test_fileupload_handle(self):
         # Abstract file upload handle
