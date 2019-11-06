@@ -128,8 +128,8 @@ Contributors
 Changes
 =======
 
-0.3 (unreleased)
-----------------
+0.3
+---
 
 - Python 3 compatibility.
   [rnix]
