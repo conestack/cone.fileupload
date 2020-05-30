@@ -128,10 +128,12 @@ Contributors
 Changes
 =======
 
-0.4 (unreleased)
+0.4 (2020-05-30)
 ----------------
 
-- No changes yet.
+- Initial pypi release
+  [rnix]
+
 
 0.3
 ---
@@ -151,11 +153,13 @@ Changes
 - Upgrade to ``cone.app`` 1.0b1.
   [rnix]
 
+
 0.2
 ---
 
 - Code organization.
   [rnix]
+
 
 0.1
 ---
