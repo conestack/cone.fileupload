@@ -46,7 +46,7 @@ class ContainerNode(BaseNode):
 
 class File(BaseNode):
     __acl__ = ACL
-    allow_non_node_childs = True
+    allow_non_node_children = True
 
 
 class ContainerFileUploadHandle(FileUploadHandle):

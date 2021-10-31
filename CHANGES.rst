@@ -4,7 +4,9 @@ Changes
 0.5 (unreleased)
 ----------------
 
-- No changes yet.
+- Rename deprecated ``allow_non_node_childs`` to ``allow_non_node_children``
+  in tests and documentation.
+  [rnix]
 
 
 0.4 (2020-05-30)

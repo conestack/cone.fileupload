@@ -53,7 +53,8 @@ So first we need to provide a model.
 
     class File(BaseNode):
         __acl__ = ACL
-        allow_non_node_childs = True # allow setting any value types
+        # allow setting any value types
+        allow_non_node_children = True
 
 Now we need to provide a concrete ``FileUploadHandle`` implementation for
 our model.
