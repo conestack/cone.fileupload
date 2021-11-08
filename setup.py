@@ -9,7 +9,7 @@ def read_file(name):
         return f.read()
 
 
-version = '0.5.dev0'
+version = '0.5'
 shortdesc = 'jQuery File Upload integration for cone.app'
 longdesc = '\n\n'.join([read_file(name) for name in [
     'README.rst',
@@ -47,7 +47,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
-        'cone.app',
+        'cone.app>=1.0.3',
     ],
     extras_require=dict(test=['zope.testrunner']),
     tests_require=['zope.testrunner'],
