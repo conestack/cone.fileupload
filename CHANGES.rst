@@ -4,7 +4,11 @@ Changes
 0.6 (unreleased)
 ----------------
 
-- No changes yet.
+- Reduce included files and plugins of jquery fileupload to required ones.
+  [rnix]
+
+- Update jquery fileupload to version 10.32.0.
+  [rnix]
 
 
 0.5 (2021-11-08)

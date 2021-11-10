@@ -15,8 +15,19 @@
 This package integrates jQuery File Upload
 (https://github.com/blueimp/jQuery-File-Upload/) in cone.
 
-Currently, tag 9.9.3 is included. See
+Currently, tag 10.32.0 is included. See
 (https://github.com/blueimp/jQuery-File-Upload/releases).
+
+Included files of jQuery File Upload:
+
+* jquery.iframe-transport.js
+* jquery.fileupload.js
+* jquery.fileupload-process.js
+* jquery.fileupload-ui.js
+* jquery.fileupload-validate.js
+
+Additionally, v3.20.0 of ``tmpl.min.js`` is included
+(https://github.com/blueimp/JavaScript-Templates)
 
 
 Usage
