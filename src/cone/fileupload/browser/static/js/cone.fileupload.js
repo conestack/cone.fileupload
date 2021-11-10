@@ -36,6 +36,22 @@
                     acceptFileTypes: eval(accept_file_types)
                 });
             }
+            // bind actions
+            $('#toolbaraction-add-files', context).off().on('click', function(evt) {
+                evt.preventDefault();
+                $('input:file', fileupload).click();
+            });
+            $('#toolbaraction-start-upload', context).off().on('click', function(evt) {
+                evt.preventDefault();
+                console.log('start-upload');
+            });
+            $('#toolbaraction-cancel-upload', context).off().on('click', function(evt) {
+                evt.preventDefault();
+                console.log('cancel-upload');
+            });
+            $('#toolbaraction-delete-files', context).off().on('click', function(evt) {
+                evt.preventDefault();
+            });
             // load existing files
             fileupload.addClass('fileupload-processing');
             $.ajax({

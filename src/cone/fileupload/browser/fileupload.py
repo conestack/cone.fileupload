@@ -1,4 +1,6 @@
 from cone.app.browser import render_main_template
+from cone.app.browser.actions import LinkAction
+from cone.app.browser.contextmenu import context_menu_item
 from cone.app.browser.utils import make_url
 from cone.tile import Tile
 from cone.tile import tile
@@ -8,6 +10,50 @@ from pyramid.view import view_config
 
 
 _ = TranslationStringFactory('cone.fileupload')
+
+
+@context_menu_item(group='childactions', name='add_files')
+class ActionAddFiles(LinkAction):
+    id = 'toolbaraction-add-files'
+    icon = 'glyphicon glyphicon-plus'
+    text = _('action_add_files', default='Add files')
+
+    @property
+    def display(self):
+        return self.model.properties.action_fileupload and self.permitted('add')
+
+
+@context_menu_item(group='childactions', name='start_upload')
+class ActionStartUpload(LinkAction):
+    id = 'toolbaraction-start-upload'
+    icon = 'glyphicon glyphicon-upload'
+    text = _('action_start_upload', default='Start Upload')
+
+    @property
+    def display(self):
+        return self.model.properties.action_fileupload and self.permitted('add')
+
+
+@context_menu_item(group='childactions', name='cancel_upload')
+class ActionCancelUpload(LinkAction):
+    id = 'toolbaraction-cancel-upload'
+    icon = 'glyphicon glyphicon-ban-circle'
+    text = _('action_cancel_upload', default='Cancel Upload')
+
+    @property
+    def display(self):
+        return self.model.properties.action_fileupload and self.permitted('add')
+
+
+@context_menu_item(group='childactions', name='delete_files')
+class ActionDeleteFiles(LinkAction):
+    id = 'toolbaraction-delete-files'
+    icon = 'glyphicon glyphicon-trash'
+    text = _('action_delete_files', default='Delete Files')
+
+    @property
+    def display(self):
+        return self.model.properties.action_fileupload and self.permitted('delete')
 
 
 @tile(name='fileupload_toolbar', path='toolbar.pt', permission='add')

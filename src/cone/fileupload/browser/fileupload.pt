@@ -12,6 +12,8 @@
         method="POST"
         enctype="multipart/form-data">
 
+    <tal:contextmenu replace="structure tile('contextmenu')" />
+
     <!-- The fileupload-buttonbar contains buttons to add/delete files and
          start/cancel the upload -->
     <div class="row fileupload-buttonbar">
