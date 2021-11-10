@@ -1,7 +1,5 @@
 <tal:block xmlns:tal="http://xml.zope.org/namespaces/tal"
-           xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            xmlns:ajax="http://namespaces.conestack.org/ajax"
-           i18n:domain="cone.fileupload"
            omit-tag="True">
 
   <!-- The file upload form used as target for the file upload widget -->
@@ -21,10 +19,10 @@
       <tal:toolbar replace="structure tile('fileupload_toolbar')" />
 
       <!-- The global progress state -->
-      <div class="col-lg-5 fileupload-progress fade">
+      <div class="col-md-12 fileupload-progress fade">
 
         <!-- The global progress bar -->
-        <div class="progress progress-striped active"
+        <div class="progress progress-striped active col-md-6"
              role="progressbar"
              aria-valuemin="0"
              aria-valuemax="100">
@@ -33,7 +31,7 @@
         </div>
 
         <!-- The extended global progress state -->
-        <div class="progress-extended">&nbsp;</div>
+        <div class="progress-extended col-md-6">&nbsp;</div>
       </div>
     </div>
 
