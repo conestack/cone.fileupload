@@ -12,16 +12,17 @@ def initialize_fileupload(config, global_config, settings):
     # application startup initialization
 
     # protected CSS
-    cfg.css.protected.append('fileupload-static/css/jquery.fileupload.css')
+    cfg.css.protected.append('fileupload-static/fileupload/jquery.fileupload.css')
+    cfg.css.protected.append('fileupload-static/fileupload.css')
 
     # protected JS
-    cfg.js.protected.append('fileupload-static/js/vendor/tmpl.min.js')
-    cfg.js.protected.append('fileupload-static/js/jquery.iframe-transport.js')
-    cfg.js.protected.append('fileupload-static/js/jquery.fileupload.js')
-    cfg.js.protected.append('fileupload-static/js/jquery.fileupload-process.js')
-    cfg.js.protected.append('fileupload-static/js/jquery.fileupload-validate.js')
-    cfg.js.protected.append('fileupload-static/js/jquery.fileupload-ui.js')
-    cfg.js.protected.append('fileupload-static/js/cone.fileupload.js')
+    cfg.js.protected.append('fileupload-static/fileupload/vendor/tmpl.min.js')
+    cfg.js.protected.append('fileupload-static/fileupload/jquery.iframe-transport.js')
+    cfg.js.protected.append('fileupload-static/fileupload/jquery.fileupload.js')
+    cfg.js.protected.append('fileupload-static/fileupload/jquery.fileupload-process.js')
+    cfg.js.protected.append('fileupload-static/fileupload/jquery.fileupload-validate.js')
+    cfg.js.protected.append('fileupload-static/fileupload/jquery.fileupload-ui.js')
+    cfg.js.protected.append('fileupload-static/fileupload.js')
 
     # add translation
     config.add_translation_dirs('cone.fileupload:locale/')

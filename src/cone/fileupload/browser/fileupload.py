@@ -1,4 +1,8 @@
 from cone.app.browser import render_main_template
+from cone.app.browser.actions import Action
+from cone.app.browser.actions import ButtonAction
+from cone.app.browser.actions import LinkAction
+from cone.app.browser.contextmenu import context_menu_item
 from cone.app.browser.utils import make_url
 from cone.tile import Tile
 from cone.tile import tile
@@ -10,7 +14,85 @@ from pyramid.view import view_config
 _ = TranslationStringFactory('cone.fileupload')
 
 
-@tile(name='fileupload_toolbar', path='toolbar.pt', permission='add')
+@context_menu_item(group='childactions', name='add_files')
+class ActionAddFiles(LinkAction):
+    id = 'toolbaraction-add-files'
+    icon = 'glyphicon glyphicon-plus'
+    text = _('action_add_files', default='Add files')
+    bind = None
+    target = None
+
+    @property
+    def display(self):
+        return self.model.properties.action_fileupload and self.permitted('add')
+
+
+@context_menu_item(group='childactions', name='start_upload')
+class ActionStartUpload(ButtonAction):
+    id = 'toolbaraction-start-upload'
+    icon = 'glyphicon glyphicon-upload'
+    text = _('action_start_upload', default='Start Upload')
+    css = 'start'
+    bind = None
+    target = None
+
+    @property
+    def display(self):
+        return self.model.properties.action_fileupload and self.permitted('add')
+
+
+@context_menu_item(group='childactions', name='cancel_upload')
+class ActionCancelUpload(ButtonAction):
+    id = 'toolbaraction-cancel-upload'
+    icon = 'glyphicon glyphicon-ban-circle'
+    text = _('action_cancel_upload', default='Cancel Upload')
+    css = 'cancel'
+    bind = None
+    target = None
+
+    @property
+    def display(self):
+        return self.model.properties.action_fileupload and self.permitted('add')
+
+
+@context_menu_item(group='childactions', name='delete_files')
+class ActionDeleteFiles(ButtonAction):
+    id = 'toolbaraction-delete-files'
+    icon = 'glyphicon glyphicon-trash'
+    text = _('action_delete_files', default='Delete Files')
+    css = 'delete'
+    bind = None
+    target = None
+
+    @property
+    def display(self):
+        return self.model.properties.action_fileupload and self.permitted('delete')
+
+
+@context_menu_item(group='contextactions', name='select_files')
+class ActionSelectFiles(Action):
+    id = 'toolbaraction-select-files'
+    text = _('action_select_files', default='Select Files')
+
+    @property
+    def display(self):
+        return self.model.properties.action_fileupload and self.permitted('delete')
+
+    def render(self):
+        localizer = get_localizer(self.request)
+        return (
+            u'<li class="select-files-action">'
+            u'  <span>{}<input type="checkbox" class="toggle" /></span>'
+            u'</li>'
+        ).format(
+            localizer.translate(self.text)
+        )
+
+
+@tile(
+    name='fileupload_toolbar',
+    path='fileupload_toolbar.pt',
+    permission='add')
 class FileUploadToolbarTile(Tile):
     """Tile rendering the file upload toolbar.
     """
@@ -29,9 +111,6 @@ UPLOAD_TEMPLATE = u"""
 <script id="template-upload" type="text/x-tmpl">
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-upload fade">
-        <td>
-            <span class="preview"></span>
-        </td>
         <td>
             <p class="name">{{%=file.name%}}</p>
             <strong class="error text-danger"></strong>
@@ -72,16 +151,6 @@ DOWNLOAD_TEMPLATE = u"""
 <script id="template-download" type="text/x-tmpl">
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-download fade">
-        <td>
-            <span class="preview">
-                {{% if (file.thumbnailUrl) {{ %}}
-                    <a href="{{%=file.url%}}"
-                       title="{{%=file.name%}}"
-                       download="{{%=file.name%}}"
-                       data-gallery><img src="{{%=file.thumbnailUrl%}}"></a>
-                {{% }} %}}
-            </span>
-        </td>
         <td>
             <p class="name">
                 {{% if (file.url) {{ %}}
@@ -136,9 +205,10 @@ class FileUploadTile(Tile):
     should be customized.
     """
     accept_file_types = ''  # e.g. /(\.|\/)(gif|jpe?g|png)$/i
-    disable_image_preview = False
-    disable_video_preview = False
-    disable_audio_preview = False
+
+    @property
+    def show_contextmenu(self):
+        return self.model.properties.action_fileupload
 
     @property
     def i18n_messages(self):

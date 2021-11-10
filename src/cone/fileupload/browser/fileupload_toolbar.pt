@@ -2,10 +2,9 @@
              xmlns:i18n="http://xml.zope.org/namespaces/i18n"
              i18n:domain="cone.fileupload"
              omit-tag="True">
-  <div class="col-lg-7">
 
-    <!-- The fileinput-button span is used to style the file input field
-         as button -->
+  <div>
+
     <span class="btn btn-success fileinput-button">
       <i class="glyphicon glyphicon-plus"></i>
       <span i18n:translate="add_files">Add files...</span>
@@ -29,8 +28,6 @@
 
     <input type="checkbox" class="toggle" />
 
-    <!-- The global file processing state -->
-    <span class="fileupload-process"></span>
-
   </div>
+
 </tal:toolbar>
