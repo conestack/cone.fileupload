@@ -18,36 +18,7 @@
          start/cancel the upload -->
     <div class="row fileupload-buttonbar">
 
-      <div class="col-lg-7">
-
-        <!-- The fileinput-button span is used to style the file input field
-             as button -->
-        <span class="btn btn-success fileinput-button">
-          <i class="glyphicon glyphicon-plus"></i>
-          <span i18n:translate="add_files">Add files...</span>
-          <input type="file" name="files[]" multiple />
-        </span>
-
-        <button type="submit" class="btn btn-primary start">
-          <i class="glyphicon glyphicon-upload"></i>
-          <span i18n:translate="start_upload">Start upload</span>
-        </button>
-
-        <button type="reset" class="btn btn-warning cancel">
-          <i class="glyphicon glyphicon-ban-circle"></i>
-          <span i18n:translate="cancel_upload">Cancel upload</span>
-        </button>
-
-        <button type="button" class="btn btn-danger delete">
-          <i class="glyphicon glyphicon-trash"></i>
-          <span i18n:translate="delete">Delete</span>
-        </button>
-
-        <input type="checkbox" class="toggle" />
-
-        <!-- The global file processing state -->
-        <span class="fileupload-process"></span>
-      </div>
+      <tal:toolbar replace="structure tile('fileupload_toolbar')" />
 
       <!-- The global progress state -->
       <div class="col-lg-5 fileupload-progress fade">
