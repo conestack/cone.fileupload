@@ -254,8 +254,10 @@ class FileUploadHandle(object):
         return {
             'name': filename,
             'size': 0,
-            'error': 'Abstract ``FileUploadHandle`` does not implement ' +
-                     '``create_file``'
+            'error': (
+                'Abstract ``FileUploadHandle`` does not '
+                'implement ``create_file``'
+            )
         }
 
 
