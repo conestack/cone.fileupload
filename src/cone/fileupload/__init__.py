@@ -13,6 +13,7 @@ def initialize_fileupload(config, global_config, settings):
 
     # protected CSS
     cfg.css.protected.append('fileupload-static/css/jquery.fileupload.css')
+    cfg.css.protected.append('fileupload-static/css/cone.fileupload.css')
 
     # protected JS
     cfg.js.protected.append('fileupload-static/js/vendor/tmpl.min.js')

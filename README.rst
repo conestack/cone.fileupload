@@ -122,9 +122,6 @@ Optionally we might want to provide a custom fileupload tile for our model.
         permission='add')
     class ContainerFileUploadTile(FileUploadTile):
         accept_file_types = '/(\.|\/)(gif|jpg)$/i'
-        disable_image_preview = True
-        disable_video_preview = True
-        disable_audio_preview = True
 
 
 Contributors

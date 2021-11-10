@@ -24,10 +24,7 @@
             // initialize fileupload plugin
             fileupload.fileupload({
                 sequentialUploads: true,
-                messages: fileupload_i18n_messages,
-                disableImagePreview: fileupload.data('disable_image_preview'),
-                disableVideoPreview: fileupload.data('disable_video_preview'),
-                disableAudioPreview: fileupload.data('disable_audio_preview')
+                messages: fileupload_i18n_messages
             });
             // check accept file types
             accept_file_types = fileupload.data('accept_file_types');
@@ -36,21 +33,10 @@
                     acceptFileTypes: eval(accept_file_types)
                 });
             }
-            // bind actions
+            // bind add files action
             $('#toolbaraction-add-files', context).off().on('click', function(evt) {
                 evt.preventDefault();
                 $('input:file', fileupload).click();
-            });
-            $('#toolbaraction-start-upload', context).off().on('click', function(evt) {
-                evt.preventDefault();
-                console.log('start-upload');
-            });
-            $('#toolbaraction-cancel-upload', context).off().on('click', function(evt) {
-                evt.preventDefault();
-                console.log('cancel-upload');
-            });
-            $('#toolbaraction-delete-files', context).off().on('click', function(evt) {
-                evt.preventDefault();
             });
             // load existing files
             fileupload.addClass('fileupload-processing');
