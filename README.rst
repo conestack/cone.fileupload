@@ -12,11 +12,10 @@
 .. image:: https://coveralls.io/repos/github/bluedynamics/cone.fileupload/badge.svg?branch=master
     :target: https://coveralls.io/github/bluedynamics/cone.fileupload?branch=master
 
-This package integrates jQuery File Upload
-(https://github.com/blueimp/jQuery-File-Upload/) in cone.
+This package integrates
+`jQueryFileUpload <https://github.com/blueimp/jQuery-File-Upload>_` in cone.
 
-Currently, tag 10.32.0 is included. See
-(https://github.com/blueimp/jQuery-File-Upload/releases).
+Currently, version 10.32.0 is included.
 
 Included files of jQuery File Upload:
 
@@ -26,8 +25,9 @@ Included files of jQuery File Upload:
 * jquery.fileupload-ui.js
 * jquery.fileupload-validate.js
 
-Additionally, v3.20.0 of ``tmpl.min.js`` is included
-(https://github.com/blueimp/JavaScript-Templates)
+Additionally, v3.20.0 of
+`Javascript-Templates <https://github.com/blueimp/JavaScript-Templates>_`
+is included.
 
 
 Usage
@@ -40,15 +40,12 @@ So first we need to provide a model.
 
 .. code-block:: python
 
-    from pyramid.security import (
-        Everyone,
-        Allow,
-        Deny,
-        ALL_PERMISSIONS,
-    )
     from cone.app.model import BaseNode
+    from pyramid.security import ALL_PERMISSIONS
+    from pyramid.security import Allow
+    from pyramid.security import Deny
+    from pyramid.security import Everyone
 
-    # define an ACL
     ACL = [
         (Allow, 'role:manager', ['add', 'delete']),
         (Allow, Everyone, ['login']),
@@ -72,8 +69,8 @@ our model.
 
 .. code-block:: python
 
-    from pyramid.view import view_config
     from cone.fileupload.browser.fileupload import FileUploadHandle
+    from pyramid.view import view_config
 
     @view_config(
         name='fileupload_handle',
@@ -123,8 +120,13 @@ Optionally we might want to provide a custom fileupload tile for our model.
     class ContainerFileUploadTile(FileUploadTile):
         accept_file_types = '/(\.|\/)(gif|jpg)$/i'
 
+The file upload actions are either rendered as dedicated tile by name
+``fileupload_toolbar`` or integrated into the context menu. If it's desired to
+display the action in the context menu, ``fileupload_contextmenu_actions``
+flag must be set on model ``properties``.
+
 
 Contributors
 ============
 
-- Robert Niederreiter <rnix [at] squarewave [dot] at>
+- Robert Niederreiter
