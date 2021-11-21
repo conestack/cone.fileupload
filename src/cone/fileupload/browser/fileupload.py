@@ -15,7 +15,7 @@ _ = TranslationStringFactory('cone.fileupload')
 
 @tile(
     name='fileupload_toolbar',
-    path='fileupload_toolbar.pt',
+    path='toolbar.pt',
     permission='add')
 class FileUploadToolbarTile(Tile):
     """Tile rendering the file upload toolbar.

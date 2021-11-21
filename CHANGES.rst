@@ -1,8 +1,14 @@
 Changes
 =======
 
-0.6 (unreleased)
+0.6 (2021-11-21)
 ----------------
+
+- Fileupload actions optionally work from contextmenu.
+  [rnix]
+
+- Move button toolbar into dedicated tile for customization.
+  [rnix]
 
 - Reduce included files and plugins of jquery fileupload to required ones.
   [rnix]
