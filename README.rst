@@ -13,7 +13,7 @@
     :target: https://coveralls.io/github/bluedynamics/cone.fileupload?branch=master
 
 This package integrates
-`jQueryFileUpload <https://github.com/blueimp/jQuery-File-Upload>_` in cone.
+`jQueryFileUpload <https://github.com/blueimp/jQuery-File-Upload>`_ in cone.
 
 Currently, version 10.32.0 is included.
 
@@ -26,7 +26,7 @@ Included files of jQuery File Upload:
 * jquery.fileupload-validate.js
 
 Additionally, v3.20.0 of
-`Javascript-Templates <https://github.com/blueimp/JavaScript-Templates>_`
+`Javascript-Templates <https://github.com/blueimp/JavaScript-Templates>`_
 is included.
 
 
