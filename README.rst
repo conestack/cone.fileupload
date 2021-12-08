@@ -87,9 +87,10 @@ our model.
             return {
                 'name': filename,
                 'size': len(file['body']),
-                'url': '/{0}'.format(file.name),
-                'deleteUrl': '/{0}/filedelete_handle'.format(file.name),
-                'deleteType': 'GET',
+                'view_url': '/{0}'.format(file.name),
+                'download_url': '/{0}/download'.format(file.name),
+                'delete_url': '/{0}/filedelete_handle'.format(file.name),
+                'delete_type': 'GET',
             }
 
         def read_existing(self):
@@ -99,9 +100,10 @@ our model.
                 files.append({
                     'name': node.name,
                     'size': len(node['body']),
-                    'url': '/{0}'.format(node.name),
-                    'deleteUrl': '/{0}/filedelete_handle'.format(node.name),
-                    'deleteType': 'GET',
+                    'view_url': '/{0}'.format(node.name),
+                    'download_url': '/{0}/download'.format(node.name),
+                    'delete_url': '/{0}/filedelete_handle'.format(node.name),
+                    'delete_type': 'GET',
                 })
             return files
 
@@ -118,7 +120,7 @@ Optionally we might want to provide a custom fileupload tile for our model.
         interface=Container,
         permission='add')
     class ContainerFileUploadTile(FileUploadTile):
-        accept_file_types = '/(\.|\/)(gif|jpg)$/i'
+        accept_file_types = r'/(\.|\/)(gif|jpg)$/i'
 
 The file upload actions are either rendered as dedicated tile by name
 ``fileupload_toolbar`` or integrated into the context menu. If it's desired to
