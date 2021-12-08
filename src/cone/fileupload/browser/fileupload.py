@@ -1,8 +1,6 @@
 from cone.app.browser import render_main_template
 from cone.app.browser.utils import make_url
-from cone.fileupload.browser.templates import DOWNLOAD_TEMPLATE
-from cone.fileupload.browser.templates import I18N_MESSAGES
-from cone.fileupload.browser.templates import UPLOAD_TEMPLATE
+from cone.fileupload.browser import templates
 from cone.tile import Tile
 from cone.tile import tile
 from pyramid.i18n import get_localizer
@@ -28,6 +26,9 @@ class FileUploadTile(Tile):
     should be customized.
     """
     accept_file_types = ''  # e.g. /(\.|\/)(gif|jpe?g|png)$/i
+    i18n_messages_src = templates.I18N_MESSAGES
+    upload_template_src = templates.UPLOAD_TEMPLATE
+    download_template_src = templates.DOWNLOAD_TEMPLATE
 
     @property
     def show_contextmenu(self):
@@ -37,33 +38,36 @@ class FileUploadTile(Tile):
     def i18n_messages(self):
         localizer = get_localizer(self.request)
         translate = localizer.translate
-        return I18N_MESSAGES.format(
-            uploaded_bytes=translate(
-                _('uploaded_bytes',
-                  default='Uploaded bytes exceed file size')),
-            accept_file_types=translate(
-                _('accept_file_types',
-                  default='File type not allowed')),
+        return self.i18n_messages_src.format(
+            uploaded_bytes=translate(_(
+                'uploaded_bytes',
+                default='Uploaded bytes exceed file size'
+            )),
+            accept_file_types=translate(_(
+                'accept_file_types',
+                default='File type not allowed'
+            ))
         )
 
     @property
     def upload_template(self):
         localizer = get_localizer(self.request)
         translate = localizer.translate
-        return UPLOAD_TEMPLATE.format(
-            processing=translate(_('processing', default='Processing...')),
-            start=translate(_('start', default='Start')),
-            cancel=translate(_('cancel', default='Cancel')),
+        return self.upload_template_src.format(
+            processing=translate(_('processing', default=u'Processing...')),
+            start=translate(_('start', default=u'Start')),
+            cancel=translate(_('cancel', default=u'Cancel')),
         )
 
     @property
     def download_template(self):
         localizer = get_localizer(self.request)
         translate = localizer.translate
-        return DOWNLOAD_TEMPLATE.format(
-            error=translate(_('error', default='Error')),
-            delete=translate(_('delete', default='Delete')),
-            cancel=translate(_('cancel', default='Cancel')),
+        return self.download_template_src.format(
+            error=translate(_('error', default=u'Error')),
+            delete=translate(_('delete', default=u'Delete')),
+            cancel=translate(_('cancel', default=u'Cancel')),
+            download=translate(_('download', default=u'Download')),
         )
 
     @property
@@ -123,31 +127,31 @@ class FileUploadHandle(object):
 
     def read_existing(self):
         """Read existing files in context and return a list of dicts containing
-        client data.
+        file data.
 
         [
             {
                 'name': 'pic.jpg',
                 'size': 841946,
-                'url': 'http://example.org/pic.jpg',
-                'thumbnailUrl': 'http://example.org/thumbnail/pic.jpg',
-                'deleteUrl': 'http://example.org/pic.jpg/filedelete_handle',
-                'deleteType': 'GET',
+                'view_url': 'http://example.org/pic.jpg',
+                'download_url': 'http://example.org/pic.jpg/download',
+                'delete_url': 'http://example.org/pic.jpg/filedelete_handle',
+                'delete_type': 'GET',
             }
         ]
         """
         return []
 
     def create_file(self, stream, filename, mimetype):
-        """Create file by uploaded stream and return client data dict.
+        """Create file by uploaded stream and return file data dict.
 
         {
             'name': 'pic.jpg',
             'size': 841946,
-            'url': 'http://example.org/pic.jpg',
-            'thumbnailUrl': 'http://example.org/thumbnail/pic.jpg',
-            'deleteUrl': 'http://example.org/pic.jpg/filedelete_handle',
-            'deleteType': 'GET',
+            'view_url': 'http://example.org/pic.jpg',
+            'download_url': 'http://example.org/pic.jpg/download',
+            'delete_url': 'http://example.org/pic.jpg/filedelete_handle',
+            'delete_type': 'GET',
         }
         """
         return {

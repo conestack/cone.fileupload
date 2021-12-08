@@ -1,3 +1,7 @@
+.file_actions {
+    text-align:right;
+}
+
 .select-files-action > span {
     position: relative;
     display: block;
@@ -8,6 +12,7 @@
     padding-bottom: 15px;
     line-height: 20px;
 }
+
 .select-files-action > span > input {
     position: relative;
     top: 2px;

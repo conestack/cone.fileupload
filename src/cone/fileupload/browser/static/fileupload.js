@@ -1,16 +1,23 @@
+var cone_fileupload = (function(exports, $, bdajax) {
 
-(function($) {
+    function show_file(evt, url) {
+        evt.preventDefault();
+        bdajax.path({
+            path: bdajax.parsepath(url),
+            target: url,
+            event: 'contextchanged:#layout'
+        });
+        bdajax.trigger('contextchanged', '#layout', url);
+    };
 
-    cone_fileupload = {};
-
-    cone_fileupload.Fileupload = class {
+    class Fileupload {
 
         static initialize(context) {
             let fileupload = $('#fileupload', context);
             if (!fileupload.length) {
                 return;
             }
-            new cone_fileupload.Fileupload(fileupload)
+            new Fileupload(fileupload)
         }
 
         constructor(elem) {
@@ -58,7 +65,12 @@
     };
 
     $(document).ready(function() {
-        bdajax.register(cone_fileupload.Fileupload.initialize, true);
+        bdajax.register(Fileupload.initialize, true);
     });
 
-})(jQuery);
+    exports.show_file = show_file;
+    exports.Fileupload = Fileupload;
+
+    return exports;
+
+})({}, jQuery, bdajax);

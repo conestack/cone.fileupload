@@ -57,9 +57,10 @@ class ContainerFileUploadHandle(FileUploadHandle):
         return {
             'name': filename,
             'size': len(file['body']),
-            'url': '/{0}'.format(file.name),
-            'deleteUrl': '/{0}/filedelete_handle'.format(file.name),
-            'deleteType': 'GET',
+            'view_url': '/{0}'.format(file.name),
+            'download_url': '/{0}/download'.format(file.name),
+            'delete_url': '/{0}/filedelete_handle'.format(file.name),
+            'delete_type': 'GET',
         }
 
     def read_existing(self):
@@ -68,9 +69,10 @@ class ContainerFileUploadHandle(FileUploadHandle):
             files.append({
                 'name': node.name,
                 'size': len(node['body']),
-                'url': '/{0}'.format(node.name),
-                'deleteUrl': '/{0}/filedelete_handle'.format(node.name),
-                'deleteType': 'GET',
+                'view_url': '/{0}'.format(node.name),
+                'download_url': '/{0}/download'.format(node.name),
+                'delete_url': '/{0}/filedelete_handle'.format(node.name),
+                'delete_type': 'GET',
             })
         return files
 
@@ -160,11 +162,12 @@ class TestFileupload(TileTestCase):
         # Upload file
         res = upload_handle()
         self.assertEqual(res['files'], [{
-            'url': '/test.txt',
-            'deleteType': 'GET',
-            'deleteUrl': '/test.txt/filedelete_handle',
             'name': 'test.txt',
-            'size': 16
+            'size': 16,
+            'view_url': '/test.txt',
+            'download_url': '/test.txt/download',
+            'delete_url': '/test.txt/filedelete_handle',
+            'delete_type': 'GET'
         }])
 
         self.checkOutput("""
@@ -177,11 +180,12 @@ class TestFileupload(TileTestCase):
         request = self.layer.new_request()
         upload_handle = ContainerFileUploadHandle(container, request)
         self.assertEqual(upload_handle()['files'], [{
-            'url': '/test.txt',
-            'deleteType': 'GET',
-            'deleteUrl': '/test.txt/filedelete_handle',
             'name': 'test.txt',
-            'size': 16
+            'size': 16,
+            'view_url': '/test.txt',
+            'download_url': '/test.txt/download',
+            'delete_url': '/test.txt/filedelete_handle',
+            'delete_type': 'GET'
         }])
 
         # Test file delete handle

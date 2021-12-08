@@ -27,7 +27,7 @@ UPLOAD_TEMPLATE = u"""
                 </div>
             </div>
         </td>
-        <td>
+        <td class="file_actions">
             {{% if (!i && !o.options.autoUpload) {{ %}}
                 <button class="btn btn-primary start" disabled>
                     <i class="glyphicon glyphicon-upload"></i>
@@ -52,17 +52,12 @@ DOWNLOAD_TEMPLATE = u"""
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-download fade">
         <td>
-            <p class="name">
-                {{% if (file.url) {{ %}}
-                    <a href="{{%=file.url%}}"
-                       title="{{%=file.name%}}"
-                       download="{{%=file.name%}}"
-                       {{%=file.thumbnailUrl?'data-gallery':''%}}>
-                        {{%=file.name%}}
-                    </a>
-                {{% }} else {{ %}}
-                    <span>{{%=file.name%}}</span>
-                {{% }} %}}
+            <p class="name" data-filename="{{%=file.name%}}">
+                <a href="{{%=file.view_url%}}"
+                   title="{{%=file.name%}}"
+                   onclick="cone_fileupload.show_file(event, '{{%=file.view_url%}}');">
+                    {{%=file.name%}}
+                </a>
             </p>
             {{% if (file.error) {{ %}}
                 <div>
@@ -74,11 +69,20 @@ DOWNLOAD_TEMPLATE = u"""
         <td>
             <span class="size">{{%=o.formatFileSize(file.size)%}}</span>
         </td>
-        <td>
-            {{% if (file.deleteUrl) {{ %}}
+        <td class="file_actions">
+            {{% if (file.download_url) {{ %}}
+                <a class="btn btn-default download"
+                   href="{{%=file.download_url%}}"
+                   title="{{%=file.name%}}"
+                   download="{{%=file.name%}}">
+                  <i class="glyphicon glyphicon-download"></i>
+                  <span>{download}</span>
+                </a>
+            {{% }} %}}
+            {{% if (file.delete_url) {{ %}}
                 <button class="btn btn-danger delete"
-                        data-type="{{%=file.deleteType%}}"
-                        data-url="{{%=file.deleteUrl%}}"
+                        data-type="{{%=file.delete_type%}}"
+                        data-url="{{%=file.delete_url%}}"
                         {{% if (file.deleteWithCredentials) {{ %}}
                         data-xhr-fields='{{"withCredentials":true}}'
                         {{% }} %}}>

@@ -4,7 +4,20 @@ Changes
 0.7 (unreleased)
 ----------------
 
-- No changes yet.
+- Add ``i18n_messages_src``, ``upload_template_src`` and
+  ``download_template_src`` attributes to ``FileUploadTile``.
+
+- Add optional ``download_url`` to file data dict.
+
+- Remove ``thumbnailUrl`` from file data dict.
+
+**Breaking Changes**
+
+- Rename ``url`` to ``view_url`` in file data dict.
+
+- Rename ``deleteUrl`` to ``delete_url`` in file data dict.
+
+- Rename ``deleteType`` to ``delete_type`` in file data dict.
 
 
 0.6 (2021-11-21)
