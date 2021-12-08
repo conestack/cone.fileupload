@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE 1.0\n"
-"POT-Creation-Date: 2021-11-10 15:23+0100\n"
+"POT-Creation-Date: 2021-12-08 16:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,79 +16,84 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Lingua 4.14\n"
 
-#. Default: Add files
-#: ./src/cone/fileupload/browser/fileupload.py:21
-msgid "action_add_files"
-msgstr ""
-
-#. Default: Start Upload
-#: ./src/cone/fileupload/browser/fileupload.py:34
-msgid "action_start_upload"
-msgstr ""
-
-#. Default: Cancel Upload
-#: ./src/cone/fileupload/browser/fileupload.py:48
-msgid "action_cancel_upload"
-msgstr ""
-
-#. Default: Delete Files
-#: ./src/cone/fileupload/browser/fileupload.py:62
-msgid "action_delete_files"
-msgstr ""
-
-#. Default: Select Files
-#: ./src/cone/fileupload/browser/fileupload.py:75
-msgid "action_select_files"
-msgstr ""
-
 #. Default: Uploaded bytes exceed file size
-#: ./src/cone/fileupload/browser/fileupload.py:219
+#: ./src/cone/fileupload/browser/fileupload.py:42
 msgid "uploaded_bytes"
 msgstr ""
 
 #. Default: File type not allowed
-#: ./src/cone/fileupload/browser/fileupload.py:222
+#: ./src/cone/fileupload/browser/fileupload.py:46
 msgid "accept_file_types"
 msgstr ""
 
 #. Default: Processing...
-#: ./src/cone/fileupload/browser/fileupload.py:231
+#: ./src/cone/fileupload/browser/fileupload.py:57
 msgid "processing"
 msgstr ""
 
 #. Default: Start
-#: ./src/cone/fileupload/browser/fileupload.py:232
+#: ./src/cone/fileupload/browser/fileupload.py:58
 msgid "start"
 msgstr ""
 
 #. Default: Cancel
-#: ./src/cone/fileupload/browser/fileupload.py:233
-#: ./src/cone/fileupload/browser/fileupload.py:243
+#: ./src/cone/fileupload/browser/fileupload.py:59
+#: ./src/cone/fileupload/browser/fileupload.py:69
 msgid "cancel"
 msgstr ""
 
 #. Default: Error
-#: ./src/cone/fileupload/browser/fileupload.py:241
+#: ./src/cone/fileupload/browser/fileupload.py:67
 msgid "error"
 msgstr ""
 
 #. Default: Delete
-#: ./src/cone/fileupload/browser/fileupload.py:242
-#: ./src/cone/fileupload/browser/fileupload_toolbar.pt:26
+#: ./src/cone/fileupload/browser/fileupload.py:68
+#: ./src/cone/fileupload/browser/toolbar.pt:26
 msgid "delete"
 msgstr ""
 
+#. Default: Download
+#: ./src/cone/fileupload/browser/fileupload.py:70
+msgid "download"
+msgstr ""
+
 #. Default: Add files...
-#: ./src/cone/fileupload/browser/fileupload_toolbar.pt:10
+#: ./src/cone/fileupload/browser/toolbar.pt:10
 msgid "add_files"
 msgstr ""
 
 #. Default: Start upload
-#: ./src/cone/fileupload/browser/fileupload_toolbar.pt:16
+#: ./src/cone/fileupload/browser/toolbar.pt:16
 msgid "start_upload"
 msgstr ""
 
 #. Default: Cancel upload
-#: ./src/cone/fileupload/browser/fileupload_toolbar.pt:21
+#: ./src/cone/fileupload/browser/toolbar.pt:21
 msgid "cancel_upload"
+msgstr ""
+
+#. Default: Add files
+#: ./src/cone/fileupload/browser/actions.py:16
+msgid "action_add_files"
+msgstr ""
+
+#. Default: Start Upload
+#: ./src/cone/fileupload/browser/actions.py:32
+msgid "action_start_upload"
+msgstr ""
+
+#. Default: Cancel Upload
+#: ./src/cone/fileupload/browser/actions.py:49
+msgid "action_cancel_upload"
+msgstr ""
+
+#. Default: Delete Files
+#: ./src/cone/fileupload/browser/actions.py:66
+msgid "action_delete_files"
+msgstr ""
+
+#. Default: Select Files
+#: ./src/cone/fileupload/browser/actions.py:82
+msgid "action_select_files"
 msgstr ""
