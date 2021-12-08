@@ -1,12 +1,10 @@
 from cgi import FieldStorage
 from cone.app import testing
 from cone.app.model import BaseNode
-from cone.fileupload.browser.fileupload import DOWNLOAD_TEMPLATE
 from cone.fileupload.browser.fileupload import filedelete_handle
 from cone.fileupload.browser.fileupload import fileupload
 from cone.fileupload.browser.fileupload import FileUploadHandle
-from cone.fileupload.browser.fileupload import I18N_MESSAGES
-from cone.fileupload.browser.fileupload import UPLOAD_TEMPLATE
+from cone.fileupload.browser.fileupload import templates
 from cone.tile import render_tile
 from cone.tile.tests import TileTestCase
 from pyramid.httpexceptions import HTTPForbidden
@@ -84,15 +82,15 @@ class TestFileupload(TileTestCase):
         # Default i18n messages, upload and download templates
         self.checkOutput("""
         <script type="text/javascript">...</script>
-        """, I18N_MESSAGES)
+        """, templates.I18N_MESSAGES)
 
         self.checkOutput("""
         <script id="template-upload" type="text/x-tmpl">...</script>
-        """, UPLOAD_TEMPLATE)
+        """, templates.UPLOAD_TEMPLATE)
 
         self.checkOutput("""
         <script id="template-download" type="text/x-tmpl">...</script>
-        """, DOWNLOAD_TEMPLATE)
+        """, templates.DOWNLOAD_TEMPLATE)
 
     def test_fileupload_tile(self):
         container = ContainerNode(name='container')
