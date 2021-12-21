@@ -1,7 +1,9 @@
 *.pyc
 /.coverage
-/src/cone.fileupload.egg-info/
 /dist/
+/htmlcov/
+/node_modules/
+/package-lock.json
 /py2/
 /py3/
-/htmlcov/
+/src/cone.fileupload.egg-info/

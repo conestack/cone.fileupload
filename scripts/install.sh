@@ -1,8 +1,24 @@
 #!/bin/bash
+#
+# Install development environment.
+
+set -e
+
+./scripts/clean.sh
+
+if ! which npm &> /dev/null; then
+    sudo apt-get install npm
+fi
+
+npm --save-dev install \
+    qunit \
+    rollup \
+    rollup-plugin-cleanup \
+    rollup-plugin-terser
+
+npm --no-save install https://github.com/jquery/jquery#main
 
 if [ -x "$(which python)" ]; then
-    rm -r py2
-
     virtualenv --clear --no-site-packages -p python py2
 
     ./py2/bin/pip install coverage
@@ -18,8 +34,6 @@ if [ -x "$(which python)" ]; then
     ./py2/bin/pip install -e .[test]
 fi
 if [ -x "$(which python3)" ]; then
-    rm -r py3
-
     virtualenv --clear --no-site-packages -p python3 py3
 
     ./py3/bin/pip install coverage

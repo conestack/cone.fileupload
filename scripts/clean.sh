@@ -5,7 +5,7 @@
 set -e
 
 to_remove=(
-    .coverage dist htmlcov py2 py3
+    .coverage dist htmlcov node_modules package-lock.json py2 py3
 )
 
 for item in "${to_remove[@]}"; do

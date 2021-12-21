@@ -4,6 +4,8 @@ Changes
 0.7 (unreleased)
 ----------------
 
+- Modernize JavaScript setup.
+
 - Add ``i18n_messages_src``, ``upload_template_src`` and
   ``download_template_src`` attributes to ``FileUploadTile``.
 
