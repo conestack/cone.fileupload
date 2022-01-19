@@ -1,7 +1,7 @@
 Changes
 =======
 
-0.7 (unreleased)
+0.7 (2022-01-19)
 ----------------
 
 - Modernize JavaScript setup.
