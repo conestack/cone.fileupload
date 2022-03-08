@@ -4,7 +4,8 @@ Changes
 0.8 (unreleased)
 ----------------
 
-- No changes yet.
+- Replace deprecated use of ``allow_non_node_children`` by ``child_constraints``.
+  [rnix]
 
 
 0.7 (2022-01-19)
