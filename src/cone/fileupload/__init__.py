@@ -1,5 +1,5 @@
 from cone.app import main_hook
-from cone.app.browser import configure_resources
+from cone.fileupload.browser import configure_resources
 import logging
 
 
