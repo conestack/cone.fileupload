@@ -1,7 +1,7 @@
 import cleanup from 'rollup-plugin-cleanup';
 import {terser} from 'rollup-plugin-terser';
 
-let out_path = 'src/cone/fileupload/browser/static';
+let out_path = 'src/cone/fileupload/browser/static/fileupload';
 
 export default args => {
     let conf = {
@@ -10,7 +10,7 @@ export default args => {
             cleanup()
         ],
         output: [{
-            file: `${out_path}/fileupload.js`,
+            file: `${out_path}/cone.fileupload.js`,
             name: 'cone_fileupload',
             format: 'iife',
             globals: {
@@ -25,7 +25,7 @@ export default args => {
     };
     if (args.configDebug !== true) {
         conf.output.push({
-            file: `${out_path}/fileupload.min.js`,
+            file: `${out_path}/cone.fileupload.min.js`,
             name: 'cone_fileupload',
             format: 'iife',
             plugins: [
