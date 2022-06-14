@@ -1,6 +1,7 @@
 from cgi import FieldStorage
 from cone.app import testing
 from cone.app.model import BaseNode
+from cone.fileupload import browser
 from cone.fileupload.browser.fileupload import filedelete_handle
 from cone.fileupload.browser.fileupload import fileupload
 from cone.fileupload.browser.fileupload import FileUploadHandle
@@ -16,6 +17,7 @@ try:
     from StringIO import StringIO
 except ImportError:  # pragma: no cover
     from io import StringIO
+import os
 import sys
 import unittest
 
@@ -26,6 +28,9 @@ class FileuploadLayer(testing.Security):
         super(FileuploadLayer, self).make_app(**{
             'cone.plugins': 'cone.fileupload'
         })
+
+
+fileupload_layer = FileuploadLayer()
 
 
 ACL = [
@@ -77,7 +82,7 @@ class ContainerFileUploadHandle(FileUploadHandle):
 
 
 class TestFileupload(TileTestCase):
-    layer = FileuploadLayer()
+    layer = fileupload_layer
 
     def test_default_templates(self):
         # Default i18n messages, upload and download templates
@@ -198,6 +203,88 @@ class TestFileupload(TileTestCase):
         self.checkOutput("""
         <class 'cone.fileupload.tests.ContainerNode'>: container
         """, container.treerepr())
+
+
+def np(path):
+    return path.replace('/', os.path.sep)
+
+
+class TestResources(unittest.TestCase):
+    layer = fileupload_layer
+
+    def test_jquery_fileupload_resources(self):
+        resources_ = browser.jquery_fileupload_resources
+        self.assertTrue(resources_.directory.endswith(np('/static/jquery-fileupload')))
+        self.assertEqual(resources_.name, 'cone.fileupload-jquery-fileupload')
+        self.assertEqual(resources_.path, 'jquery-fileupload')
+
+        scripts = resources_.scripts
+        self.assertEqual(len(scripts), 7)
+
+        self.assertTrue(scripts[0].directory.endswith(np('/static/jquery-fileupload/vendor')))
+        self.assertEqual(scripts[0].path, 'jquery-fileupload/vendor')
+        self.assertEqual(scripts[0].file_name, 'tmpl.min.js')
+        self.assertTrue(os.path.exists(scripts[0].file_path))
+
+        self.assertTrue(scripts[1].directory.endswith(np('/static/jquery-fileupload/vendor')))
+        self.assertEqual(scripts[1].path, 'jquery-fileupload/vendor')
+        self.assertEqual(scripts[1].file_name, 'jquery.ui.widget.js')
+        self.assertTrue(os.path.exists(scripts[1].file_path))
+
+        self.assertTrue(scripts[2].directory.endswith(np('/static/jquery-fileupload')))
+        self.assertEqual(scripts[2].path, 'jquery-fileupload')
+        self.assertEqual(scripts[2].file_name, 'jquery.iframe-transport.js')
+        self.assertTrue(os.path.exists(scripts[2].file_path))
+
+        self.assertTrue(scripts[3].directory.endswith(np('/static/jquery-fileupload')))
+        self.assertEqual(scripts[3].path, 'jquery-fileupload')
+        self.assertEqual(scripts[3].file_name, 'jquery.fileupload.js')
+        self.assertTrue(os.path.exists(scripts[3].file_path))
+
+        self.assertTrue(scripts[4].directory.endswith(np('/static/jquery-fileupload')))
+        self.assertEqual(scripts[4].path, 'jquery-fileupload')
+        self.assertEqual(scripts[4].file_name, 'jquery.fileupload-process.js')
+        self.assertTrue(os.path.exists(scripts[4].file_path))
+
+        self.assertTrue(scripts[5].directory.endswith(np('/static/jquery-fileupload')))
+        self.assertEqual(scripts[5].path, 'jquery-fileupload')
+        self.assertEqual(scripts[5].file_name, 'jquery.fileupload-validate.js')
+        self.assertTrue(os.path.exists(scripts[5].file_path))
+
+        self.assertTrue(scripts[6].directory.endswith(np('/static/jquery-fileupload')))
+        self.assertEqual(scripts[6].path, 'jquery-fileupload')
+        self.assertEqual(scripts[6].file_name, 'jquery.fileupload-ui.js')
+        self.assertTrue(os.path.exists(scripts[6].file_path))
+
+        styles = resources_.styles
+        self.assertEqual(len(styles), 1)
+
+        self.assertTrue(styles[0].directory.endswith(np('/static/jquery-fileupload')))
+        self.assertEqual(styles[0].path, 'jquery-fileupload')
+        self.assertEqual(styles[0].file_name, 'jquery.fileupload.css')
+        self.assertTrue(os.path.exists(styles[0].file_path))
+
+    def test_cone_fileupload_resources(self):
+        resources_ = browser.cone_fileupload_resources
+        self.assertTrue(resources_.directory.endswith(np('/static/fileupload')))
+        self.assertEqual(resources_.name, 'cone.fileupload-fileupload')
+        self.assertEqual(resources_.path, 'fileupload')
+
+        scripts = resources_.scripts
+        self.assertEqual(len(scripts), 1)
+
+        self.assertTrue(scripts[0].directory.endswith(np('/static/fileupload')))
+        self.assertEqual(scripts[0].path, 'fileupload')
+        self.assertEqual(scripts[0].file_name, 'cone.fileupload.min.js')
+        self.assertTrue(os.path.exists(scripts[0].file_path))
+
+        styles = resources_.styles
+        self.assertEqual(len(styles), 1)
+
+        self.assertTrue(styles[0].directory.endswith(np('/static/fileupload')))
+        self.assertEqual(styles[0].path, 'fileupload')
+        self.assertEqual(styles[0].file_name, 'cone.fileupload.css')
+        self.assertTrue(os.path.exists(styles[0].file_path))
 
 
 def run_tests():
