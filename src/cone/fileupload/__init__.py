@@ -11,7 +11,7 @@ def initialize_fileupload(config, global_config, settings):
     # application startup initialization
 
     # static resources
-    configure_resources(settings)
+    configure_resources(config, settings)
 
     # add translation
     config.add_translation_dirs('cone.fileupload:locale/')

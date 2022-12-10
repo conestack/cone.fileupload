@@ -1,5 +1,3 @@
-from cone.app.browser.resources import resources
-from cone.app.browser.resources import set_resource_include
 import webresource as wr
 import os
 
@@ -10,8 +8,7 @@ resources_dir = os.path.join(os.path.dirname(__file__), 'static')
 jquery_fileupload_resources = wr.ResourceGroup(
     name='cone.fileupload-jquery-fileupload',
     directory=os.path.join(resources_dir, 'jquery-fileupload'),
-    path='jquery-fileupload',
-    group=resources
+    path='jquery-fileupload'
 )
 jquery_fileupload_resources.add(wr.ScriptResource(
     name='blueimp-tmpl-js',
@@ -63,8 +60,7 @@ jquery_fileupload_resources.add(wr.StyleResource(
 cone_fileupload_resources = wr.ResourceGroup(
     name='cone.fileupload-fileupload',
     directory=os.path.join(resources_dir, 'fileupload'),
-    path='fileupload',
-    group=resources
+    path='fileupload'
 )
 cone_fileupload_resources.add(wr.ScriptResource(
     name='cone-fileupload-js',
@@ -79,17 +75,19 @@ cone_fileupload_resources.add(wr.StyleResource(
 ))
 
 
-def configure_resources(settings):
+def configure_resources(config, settings):
     # jquery fileupload
-    set_resource_include(settings, 'blueimp-tmpl-js', 'authenticated')
-    set_resource_include(settings, 'jquery-ui-widget-js', 'authenticated')
-    set_resource_include(settings, 'jquery-fileupload-iframe-transport-js', 'authenticated')
-    set_resource_include(settings, 'jquery-fileupload-js', 'authenticated')
-    set_resource_include(settings, 'jquery-fileupload-process-js', 'authenticated')
-    set_resource_include(settings, 'jquery-fileupload-validate-js', 'authenticated')
-    set_resource_include(settings, 'jquery-fileupload-ui-js', 'authenticated')
-    set_resource_include(settings, 'jquery-fileupload-css', 'authenticated')
+    config.register_resource(jquery_fileupload_resources)
+    config.set_resource_include('blueimp-tmpl-js', 'authenticated')
+    config.set_resource_include('jquery-ui-widget-js', 'authenticated')
+    config.set_resource_include('jquery-fileupload-iframe-transport-js', 'authenticated')
+    config.set_resource_include('jquery-fileupload-js', 'authenticated')
+    config.set_resource_include('jquery-fileupload-process-js', 'authenticated')
+    config.set_resource_include('jquery-fileupload-validate-js', 'authenticated')
+    config.set_resource_include('jquery-fileupload-ui-js', 'authenticated')
+    config.set_resource_include('jquery-fileupload-css', 'authenticated')
 
     # cone fileupload
-    set_resource_include(settings, 'cone-fileupload-js', 'authenticated')
-    set_resource_include(settings, 'cone-fileupload-css', 'authenticated')
+    config.register_resource(cone_fileupload_resources)
+    config.set_resource_include('cone-fileupload-js', 'authenticated')
+    config.set_resource_include('cone-fileupload-css', 'authenticated')
