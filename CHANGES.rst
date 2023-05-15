@@ -1,8 +1,11 @@
 Changes
 =======
 
-0.8 (unreleased)
-----------------
+1.0a1 (unreleased)
+------------------
+
+- Use ``webresource`` for resource registration.
+  [rnix]
 
 - Replace deprecated use of ``allow_non_node_children`` by ``child_constraints``.
   [rnix]
