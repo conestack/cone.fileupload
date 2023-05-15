@@ -1,7 +1,7 @@
 Changes
 =======
 
-1.0a1 (unreleased)
+1.0a1 (2023-05-15)
 ------------------
 
 - Use ``webresource`` for resource registration.

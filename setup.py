@@ -9,7 +9,7 @@ def read_file(name):
         return f.read()
 
 
-version = '1.0a1.dev0'
+version = '1.0a1'
 shortdesc = 'jQuery File Upload integration for cone.app'
 longdesc = '\n\n'.join([read_file(name) for name in [
     'README.rst',
