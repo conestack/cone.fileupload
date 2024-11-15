@@ -175,8 +175,8 @@ class TestFileupload(TileTestCase):
         }])
 
         self.checkOutput("""
-        <class 'cone.fileupload.tests.ContainerNode'>: container
-          <class 'cone.fileupload.tests.File'>: test.txt
+        <class 'cone.fileupload.tests.test_package.ContainerNode'>: container
+          <class 'cone.fileupload.tests.test_package.File'>: test.txt
             body: 'I am the payload'
         """, container.treerepr())
 
@@ -201,7 +201,7 @@ class TestFileupload(TileTestCase):
         )
 
         self.checkOutput("""
-        <class 'cone.fileupload.tests.ContainerNode'>: container
+        <class 'cone.fileupload.tests.test_package.ContainerNode'>: container
         """, container.treerepr())
 
 
