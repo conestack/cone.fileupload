@@ -6,14 +6,14 @@
   <div>
 
     <span class="btn btn-success fileinput-button">
-      <i class="bi bi-plus-circle"></i>
+      <i class="bi bi-file-earmark-plus"></i>
       <span i18n:translate="add_files">Add files...</span>
       <input type="file" name="files[]" multiple />
     </span>
 
     <button type="submit" class="btn btn-primary start">
       <i class="bi bi-upload"></i>
-      <span i18n:translate="start_upload">Start upload</span>
+      <span i18n:translate="start_upload_selected">Upload selected</span>
     </button>
 
     <button type="reset" class="btn btn-warning cancel">
@@ -23,10 +23,15 @@
 
     <button type="button" class="btn btn-danger delete">
       <i class="bi bi-trash"></i>
-      <span i18n:translate="delete">Delete</span>
+      <span i18n:translate="delete_selected">Delete selected</span>
     </button>
 
-    <input type="checkbox" class="toggle" />
+    <div class="form-check d-inline-block ms-2">
+      <input class="form-check-input toggle" type="checkbox" id="selectAll">
+      <label class="form-check-label" for="selectAll" i18n:translate="select_all">
+        Select All
+      </label>
+    </div>
 
   </div>
 

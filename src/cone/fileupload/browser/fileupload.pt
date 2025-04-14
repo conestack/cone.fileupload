@@ -29,11 +29,11 @@
     <div class="fileupload-progress fade">
 
       <!-- The global progress bar -->
-      <div class="progress progress-striped active col-md-6"
+      <div class="progress active col-md-6"
            role="progressbar"
            aria-valuemin="0"
            aria-valuemax="100">
-        <div class="progress-bar progress-bar-success"
+        <div class="progress-bar progress-bar-striped"
              style="width:0%;"></div>
       </div>
 
@@ -42,9 +42,11 @@
     </div>
 
     <!-- The table listing the files available for upload/download -->
-    <table role="presentation" class="table table-striped">
-      <tbody class="files"></tbody>
-    </table>
+    <div class="card">
+      <table role="presentation" class="card-body mb-0 table table-striped">
+        <tbody class="files"></tbody>
+      </table>
+    </div>
   </form>
 
   <tal:i18n_messages replace="structure context.i18n_messages" />

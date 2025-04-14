@@ -12,7 +12,7 @@ _ = TranslationStringFactory('cone.fileupload')
 @context_menu_item(group='childactions', name='add_files')
 class ActionAddFiles(LinkAction):
     id = 'toolbaraction-add-files'
-    icon = 'bi bi-plus-circle'
+    icon = 'bi bi-file-earmark-plus'
     text = _('action_add_files', default='Add files')
     bind = None
     target = None
