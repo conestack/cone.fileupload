@@ -6,23 +6,23 @@
   <div>
 
     <span class="btn btn-success fileinput-button">
-      <i class="glyphicon glyphicon-plus"></i>
+      <i class="bi bi-plus-circle"></i>
       <span i18n:translate="add_files">Add files...</span>
       <input type="file" name="files[]" multiple />
     </span>
 
     <button type="submit" class="btn btn-primary start">
-      <i class="glyphicon glyphicon-upload"></i>
+      <i class="bi bi-upload"></i>
       <span i18n:translate="start_upload">Start upload</span>
     </button>
 
     <button type="reset" class="btn btn-warning cancel">
-      <i class="glyphicon glyphicon-ban-circle"></i>
+      <i class="bi bi-x-circle"></i>
       <span i18n:translate="cancel_upload">Cancel upload</span>
     </button>
 
     <button type="button" class="btn btn-danger delete">
-      <i class="glyphicon glyphicon-trash"></i>
+      <i class="bi bi-trash"></i>
       <span i18n:translate="delete">Delete</span>
     </button>
 
