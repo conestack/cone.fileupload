@@ -55,7 +55,7 @@
       // uploads, set the following option to true:
       autoUpload: false,
       // The class to show/hide UI elements:
-      showElementClass: 'in',
+      showElementClass: 'show',
       // The ID of the upload template:
       uploadTemplateId: 'template-upload',
       // The ID of the download template:
