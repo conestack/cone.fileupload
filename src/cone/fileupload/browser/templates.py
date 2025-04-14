@@ -30,13 +30,13 @@ UPLOAD_TEMPLATE = u"""
         <td class="file_actions">
             {{% if (!i && !o.options.autoUpload) {{ %}}
                 <button class="btn btn-primary start" disabled>
-                    <i class="glyphicon glyphicon-upload"></i>
+                    <i class="bi bi-upload"></i>
                     <span>{start}</span>
                 </button>
             {{% }} %}}
             {{% if (!i) {{ %}}
                 <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <i class="bi bi-x-circle"></i>
                     <span>{cancel}</span>
                 </button>
             {{% }} %}}
@@ -75,7 +75,7 @@ DOWNLOAD_TEMPLATE = u"""
                    href="{{%=file.download_url%}}"
                    title="{{%=file.name%}}"
                    download="{{%=file.name%}}">
-                  <i class="glyphicon glyphicon-download"></i>
+                  <i class="bi bi-download"></i>
                   <span>{download}</span>
                 </a>
             {{% }} %}}
@@ -86,13 +86,13 @@ DOWNLOAD_TEMPLATE = u"""
                         {{% if (file.deleteWithCredentials) {{ %}}
                         data-xhr-fields='{{"withCredentials":true}}'
                         {{% }} %}}>
-                    <i class="glyphicon glyphicon-trash"></i>
+                    <i class="bi bi-trash"></i>
                     <span>{delete}</span>
                 </button>
                 <input type="checkbox" name="delete" value="1" class="toggle">
             {{% }} else {{ %}}
                 <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <i class="bi bi-x-circle"></i>
                     <span>{cancel}</span>
                 </button>
             {{% }} %}}
