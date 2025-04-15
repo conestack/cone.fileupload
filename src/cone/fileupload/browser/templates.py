@@ -12,12 +12,12 @@ UPLOAD_TEMPLATE = u"""
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-upload fade">
         <td>
-            <p class="name">{{%=file.name%}}</p>
+            <p class="name m-0">{{%=file.name%}}</p>
             <strong class="error text-danger"></strong>
         </td>
         <td>
             <p class="size">{processing}</p>
-            <div class="progress progress-striped active"
+            <div class="progress progress-striped border border-primary active"
                  role="progressbar"
                  aria-valuemin="0"
                  aria-valuemax="100"
@@ -52,7 +52,7 @@ DOWNLOAD_TEMPLATE = u"""
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-download fade">
         <td>
-            <p class="name" data-filename="{{%=file.name%}}">
+            <p class="name m-0" data-filename="{{%=file.name%}}">
                 <a href="{{%=file.view_url%}}"
                    title="{{%=file.name%}}"
                    onclick="cone_fileupload.show_file(event, '{{%=file.view_url%}}');">
@@ -89,7 +89,9 @@ DOWNLOAD_TEMPLATE = u"""
                     <i class="bi bi-trash"></i>
                     <span>{delete}</span>
                 </button>
-                <input type="checkbox" name="delete" value="1" class="toggle">
+                <input type="checkbox"
+                       class="mx-2 d-inline-block form-check"
+                       name="delete" value="1" class="toggle">
             {{% }} else {{ %}}
                 <button class="btn btn-warning cancel">
                     <i class="bi bi-x-circle"></i>

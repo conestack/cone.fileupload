@@ -29,7 +29,7 @@
     <div class="fileupload-progress fade">
 
       <!-- The global progress bar -->
-      <div class="progress active col-md-6"
+      <div class="progress border border-primary active col-md-6"
            role="progressbar"
            aria-valuemin="0"
            aria-valuemax="100">
