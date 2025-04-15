@@ -13,7 +13,7 @@
 
     <button type="submit" class="btn btn-primary start">
       <i class="bi bi-upload"></i>
-      <span i18n:translate="start_upload_selected">Upload selected</span>
+      <span i18n:translate="start_upload_all">Upload all</span>
     </button>
 
     <button type="reset" class="btn btn-warning cancel">
