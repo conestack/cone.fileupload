@@ -17,12 +17,12 @@ UPLOAD_TEMPLATE = u"""
         </td>
         <td>
             <p class="size">{processing}</p>
-            <div class="progress progress-striped border border-primary active"
+            <div class="progress border border-primary active w-100"
                  role="progressbar"
                  aria-valuemin="0"
                  aria-valuemax="100"
                  aria-valuenow="0">
-                <div class="progress-bar progress-bar-success"
+                <div class="progress-bar progress-bar-striped progress-bar-animated h-100"
                      style="width:0%;">
                 </div>
             </div>

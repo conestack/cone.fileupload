@@ -26,23 +26,26 @@
     </div>
 
     <!-- The global progress state -->
-    <div class="fileupload-progress fade">
+    <div class="fileupload-progress d-flex align-items-center fade">
 
       <!-- The global progress bar -->
-      <div class="progress border border-primary active col-md-6"
+      <div class="progress border border-primary col-12 col-md-6 active"
            role="progressbar"
            aria-valuemin="0"
            aria-valuemax="100">
-        <div class="progress-bar progress-bar-striped"
+        <div class="progress-bar progress-bar-striped progress-bar-animated h-100"
              style="width:0%;"></div>
       </div>
 
       <!-- The extended global progress state -->
-      <div class="progress-extended col-md-6">&nbsp;</div>
+      <div class="progress-extended col-12 col-md-6 ps-3">&nbsp;</div>
     </div>
 
     <!-- The table listing the files available for upload/download -->
     <div class="card">
+      <div class="alert fileupload-empty">
+        No Files yet.
+      </div>
       <table role="presentation" class="card-body mb-0 table table-striped">
         <tbody class="files"></tbody>
       </table>
