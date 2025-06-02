@@ -43,7 +43,7 @@
 
     <!-- The table listing the files available for upload/download -->
     <div class="card">
-      <div class="alert fileupload-empty">
+      <div class="alert fileupload-empty mb-0">
         No Files yet.
       </div>
       <table role="presentation" class="card-body mb-0 table table-striped">
