@@ -60,8 +60,9 @@ DOWNLOAD_TEMPLATE = u"""
                 </a>
             </p>
             {{% if (file.error) {{ %}}
-                <div>
-                  <span class="label label-danger">{error}</span>
+                <div class="alert alert-danger m-0 mt-1 px-2 py-1">
+                  <i class="bi bi-x-octagon me-1"></i>
+                  <span>{error}</span>:
                   {{%=file.error%}}
                 </div>
             {{% }} %}}

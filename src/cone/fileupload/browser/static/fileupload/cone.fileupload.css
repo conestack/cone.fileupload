@@ -8,3 +8,23 @@
     margin-top: 0px;
     margin-left: 8px;
 }
+
+#toolbaraction-add-files:hover {
+    background-color: var(--bs-green);
+    color: var(--bs-white);
+    transition: all .1s ease-in;
+}
+#toolbaraction-start-upload:hover {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+    transition: all .1s ease-in;
+}
+#toolbaraction-cancel-upload:hover {
+    background-color: var(--bs-warning);
+    transition: all .1s ease-in;
+}
+#toolbaraction-delete-files:hover {
+    background-color: var(--bs-red);
+    color: var(--bs-white);
+    transition: all .1s ease-in;
+}

@@ -12,7 +12,7 @@ _ = TranslationStringFactory('cone.fileupload')
 @context_menu_item(group='childactions', name='add_files')
 class ActionAddFiles(LinkAction):
     id = 'toolbaraction-add-files'
-    css = 'dropdown-item py-2 border-bottom bg-success text-light'
+    css = 'dropdown-item py-2 border-bottom alert alert-success rounded-0 m-0'
     icon = 'bi bi-file-earmark-plus'
     text = _('action_add_files', default='Add files')
     bind = None
@@ -31,7 +31,7 @@ class ActionStartUpload(ButtonAction):
     id = 'toolbaraction-start-upload'
     icon = 'bi bi-upload'
     text = _('action_start_upload', default='Start Upload')
-    css = 'start dropdown-item py-2 border-bottom bg-primary text-light'
+    css = 'start dropdown-item py-2 border-bottom alert alert-primary rounded-0 m-0'
     bind = None
     target = None
 
@@ -48,7 +48,7 @@ class ActionCancelUpload(ButtonAction):
     id = 'toolbaraction-cancel-upload'
     icon = 'bi bi-x-circle'
     text = _('action_cancel_upload', default='Cancel Upload')
-    css = 'cancel dropdown-item py-2 border-bottom bg-warning text-dark'
+    css = 'cancel dropdown-item py-2 border-bottom alert alert-warning rounded-0 m-0'
     bind = None
     target = None
 
@@ -66,7 +66,7 @@ class ActionDeleteFiles(ButtonAction):
     id = 'toolbaraction-delete-files'
     icon = 'bi bi-trash'
     text = _('action_delete_files', default='Delete Files')
-    css = 'delete dropdown-item py-2 border-bottom bg-danger text-light'
+    css = 'delete dropdown-item py-2 border-bottom alert alert-danger rounded-0 m-0'
     bind = None
     target = None
 
