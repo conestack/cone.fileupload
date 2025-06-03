@@ -54,6 +54,7 @@ class FileUploadTile(Tile):
         localizer = get_localizer(self.request)
         translate = localizer.translate
         return self.upload_template_src.format(
+            error=translate(_('error', default=u'Error')),
             processing=translate(_('processing', default=u'Processing...')),
             start=translate(_('start', default=u'Start')),
             cancel=translate(_('cancel', default=u'Cancel')),

@@ -12,8 +12,12 @@ UPLOAD_TEMPLATE = u"""
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-upload fade">
         <td>
-            <p class="name m-0">{{%=file.name%}}</p>
-            <strong class="error text-danger"></strong>
+          <p class="name m-0">{{%=file.name%}}</p>
+          <div class="alert alert-danger m-0 mt-1 px-2 py-1">
+            <i class="bi bi-x-octagon me-1"></i>
+            <span>{error}</span>:
+            <span class="error">Uncaught Error</span>
+          </div>
         </td>
         <td>
             <p class="size">{processing}</p>
@@ -72,7 +76,7 @@ DOWNLOAD_TEMPLATE = u"""
         </td>
         <td class="file_actions">
             {{% if (file.download_url) {{ %}}
-                <a class="btn btn-default download"
+                <a class="btn btn-primary download"
                    href="{{%=file.download_url%}}"
                    title="{{%=file.name%}}"
                    download="{{%=file.name%}}">
