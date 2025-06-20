@@ -13,11 +13,6 @@ UPLOAD_TEMPLATE = u"""
     <tr class="template-upload fade">
         <td>
           <p class="name m-0">{{%=file.name%}}</p>
-          <div class="alert alert-danger m-0 mt-1 px-2 py-1">
-            <i class="bi bi-x-octagon me-1"></i>
-            <span>{error}</span>:
-            <span class="error">Uncaught Error</span>
-          </div>
         </td>
         <td>
             <p class="size">{processing}</p>
