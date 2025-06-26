@@ -50,7 +50,7 @@ DOWNLOAD_TEMPLATE = u"""
 <script id="template-download" type="text/x-tmpl">
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-download fade">
-        <td>
+        <td class="file_name">
             <p class="name m-0" data-filename="{{%=file.name%}}">
                 <a href="{{%=file.view_url%}}"
                    title="{{%=file.name%}}"
@@ -66,7 +66,7 @@ DOWNLOAD_TEMPLATE = u"""
                 </div>
             {{% }} %}}
         </td>
-        <td>
+        <td class="text-nowrap">
             <span class="size">{{%=o.formatFileSize(file.size)%}}</span>
         </td>
         <td class="file_actions">
@@ -83,6 +83,7 @@ DOWNLOAD_TEMPLATE = u"""
                 <button class="btn btn-danger delete"
                         data-type="{{%=file.delete_type%}}"
                         data-url="{{%=file.delete_url%}}"
+                        title="{delete}"
                         {{% if (file.deleteWithCredentials) {{ %}}
                         data-xhr-fields='{{"withCredentials":true}}'
                         {{% }} %}}>
@@ -93,7 +94,7 @@ DOWNLOAD_TEMPLATE = u"""
                        class="mx-2 d-inline-block form-check"
                        name="delete" value="1" class="toggle">
             {{% }} else {{ %}}
-                <button class="btn btn-warning cancel">
+                <button class="btn btn-warning cancel" title="{cancel}">
                     <i class="bi bi-x-circle"></i>
                     <span>{cancel}</span>
                 </button>

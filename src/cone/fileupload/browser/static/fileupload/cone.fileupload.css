@@ -1,5 +1,49 @@
+form#fileupload {
+    container: fileuploadform / inline-size;
+}
+
 .file_actions {
-    text-align:right;
+    white-space: nowrap;
+    text-align: right;
+}
+
+@container fileuploadform (width < 400px) {
+    .file_actions {
+        .btn {
+            padding: .1rem .25rem!important;
+        }
+    }
+}
+@container fileuploadform (width < 500px) {
+    .fileupload-card  {
+        overflow: hidden;
+    }
+    .fileupload-card table {
+        table-layout: fixed;
+    }
+    td.file_name p.name {
+        text-overflow: ellipsis;
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    input[name="delete"] {
+        line-height: normal;
+        vertical-align: bottom;
+    }
+}
+@container fileuploadform (width < 800px) {
+    .file_actions {
+        .btn {
+            padding: .25rem .5rem;
+            line-height: normal;
+            vertical-align: bottom;
+
+            > span {
+                display: none;
+            }
+        }
+    }
 }
 
 .select-files-action > span > input {
