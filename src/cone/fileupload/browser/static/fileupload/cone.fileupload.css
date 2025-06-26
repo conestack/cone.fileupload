@@ -1,15 +1,27 @@
 form#fileupload {
     container: fileuploadform / inline-size;
+
+    .files td {
+        vertical-align: middle;
+    }
 }
 
 .file_actions {
     white-space: nowrap;
     text-align: right;
+
+    input {
+        vertical-align: middle;
+    }
+    .btn {
+        vertical-align: baseline;
+    }
 }
 
 @container fileuploadform (width < 400px) {
     .file_actions {
         .btn {
+            line-height: 1.25rem!important;
             padding: .1rem .25rem!important;
         }
     }

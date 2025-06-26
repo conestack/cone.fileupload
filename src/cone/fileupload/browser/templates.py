@@ -71,7 +71,7 @@ DOWNLOAD_TEMPLATE = u"""
         </td>
         <td class="file_actions">
             {{% if (file.download_url) {{ %}}
-                <a class="btn btn-primary download"
+                <a class="btn btn-sm btn-primary download"
                    href="{{%=file.download_url%}}"
                    title="{{%=file.name%}}"
                    download="{{%=file.name%}}">
@@ -80,7 +80,7 @@ DOWNLOAD_TEMPLATE = u"""
                 </a>
             {{% }} %}}
             {{% if (file.delete_url) {{ %}}
-                <button class="btn btn-danger delete"
+                <button class="btn btn-sm btn-danger delete"
                         data-type="{{%=file.delete_type%}}"
                         data-url="{{%=file.delete_url%}}"
                         title="{delete}"
@@ -94,7 +94,7 @@ DOWNLOAD_TEMPLATE = u"""
                        class="mx-2 d-inline-block form-check"
                        name="delete" value="1" class="toggle">
             {{% }} else {{ %}}
-                <button class="btn btn-warning cancel" title="{cancel}">
+                <button class="btn btn-sm btn-warning cancel" title="{cancel}">
                     <i class="bi bi-x-circle"></i>
                     <span>{cancel}</span>
                 </button>
