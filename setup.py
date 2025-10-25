@@ -47,7 +47,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
-        'cone.app>=1.0.3',
+        'cone.app>=1.0.3,<1.1.0',
     ],
     extras_require=dict(test=['zope.testrunner']),
     tests_require=['zope.testrunner'],

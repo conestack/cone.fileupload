@@ -4,6 +4,9 @@ Changes
 0.8 (unreleased)
 ----------------
 
+- Pin upper versions of dependencies.
+  [rnix]
+
 - Replace deprecated use of ``allow_non_node_children`` by ``child_constraints``.
   [rnix]
 
