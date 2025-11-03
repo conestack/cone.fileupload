@@ -18,7 +18,6 @@ try:
 except ImportError:  # pragma: no cover
     from io import StringIO
 import os
-import sys
 import unittest
 
 
@@ -175,8 +174,8 @@ class TestFileupload(TileTestCase):
         }])
 
         self.checkOutput("""
-        <class 'cone.fileupload.tests.ContainerNode'>: container
-          <class 'cone.fileupload.tests.File'>: test.txt
+        <class 'cone.fileupload.tests.test_fileupload.ContainerNode'>: container
+          <class 'cone.fileupload.tests.test_fileupload.File'>: test.txt
             body: 'I am the payload'
         """, container.treerepr())
 
@@ -201,7 +200,7 @@ class TestFileupload(TileTestCase):
         )
 
         self.checkOutput("""
-        <class 'cone.fileupload.tests.ContainerNode'>: container
+        <class 'cone.fileupload.tests.test_fileupload.ContainerNode'>: container
         """, container.treerepr())
 
 
@@ -285,19 +284,3 @@ class TestResources(unittest.TestCase):
         self.assertEqual(styles[0].path, 'fileupload')
         self.assertEqual(styles[0].file_name, 'cone.fileupload.css')
         self.assertTrue(os.path.exists(styles[0].file_path))
-
-
-def run_tests():
-    from cone.fileupload import tests
-    from zope.testrunner.runner import Runner
-
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.findTestCases(tests))
-
-    runner = Runner(found_suites=[suite])
-    runner.run()
-    sys.exit(int(runner.failed))
-
-
-if __name__ == '__main__':
-    run_tests()
