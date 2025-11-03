@@ -17,14 +17,6 @@ longdesc = '\n\n'.join([read_file(name) for name in [
     'LICENSE.rst'
 ]])
 
-
-class Test(test):
-
-    def run_tests(self):
-        from cone.fileupload import tests
-        tests.run_tests()
-
-
 setup(
     name='cone.fileupload',
     version=version,
@@ -47,9 +39,12 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
-        'cone.app>=1.0.3',
+        'cone.app[lxml]>=1.0.3',
+        'yafowil.yaml'
     ],
-    extras_require=dict(test=['zope.testrunner']),
-    tests_require=['zope.testrunner'],
-    cmdclass=dict(test=Test)
+    extras_require=dict(
+    test=[
+        'pytest',
+        'zope.pytestlayer'
+    ])
 )
