@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cone.fileupload"
-version = "1.0a2.dev0"
+version = "1.1.0.dev0"
 description = "jQuery File Upload integration for cone.app"
 readme = "README.rst"
 license = {text = "Simplified BSD"}
