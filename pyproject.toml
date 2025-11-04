@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
 dependencies = [
-    "cone.app>=1.0.3",
+    "cone.app>1.0.99",
 ]
 
 [project.optional-dependencies]
