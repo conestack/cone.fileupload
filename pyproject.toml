@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cone.fileupload"
+version = "1.1.0.dev0"
+description = "jQuery File Upload integration for cone.app"
+readme = "README.rst"
+license = {text = "Simplified BSD"}
+authors = [{name = "Cone Contributors", email = "dev@conestack.org"}]
+keywords = ["node", "pyramid", "cone", "web"]
+classifiers = [
+    "Environment :: Web Environment",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+dependencies = [
+    "cone.app>1.0.99",
+]
+
+[project.optional-dependencies]
+test = [
+    "cone.app[test]",
+    "pytest",
+    "zope.pytestlayer",
+]
+
+[project.urls]
+Homepage = "http://github.com/conestack/cone.fileuplaod"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cone"]
+
+[tool.pytest.ini_options]
+consider_namespace_packages = true
+addopts = ["--import-mode=importlib"]
+pythonpath = "src"
+
+[tool.zest-releaser]
+create-wheel = true
