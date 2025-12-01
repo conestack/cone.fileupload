@@ -6,7 +6,6 @@
 /.coverage
 /.mxmake/
 /.project
-/.venv/
 /.vscode/
 /constraints-mxdev.txt
 /coverage/
