@@ -1,4 +1,4 @@
-name: Test cone.fileupload
+name: Python Tests
 
 on: [push]
 
