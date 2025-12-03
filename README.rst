@@ -6,11 +6,9 @@
     :target: https://pypi.python.org/pypi/cone.fileupload
     :alt: Number of PyPI downloads
 
-.. image:: https://travis-ci.org/bluedynamics/cone.fileupload.svg?branch=master
-    :target: https://travis-ci.org/bluedynamics/cone.fileupload
-
-.. image:: https://coveralls.io/repos/github/bluedynamics/cone.fileupload/badge.svg?branch=master
-    :target: https://coveralls.io/github/bluedynamics/cone.fileupload?branch=master
+.. image:: https://github.com/conestack/cone.fileupload/actions/workflows/test.yml/badge.svg
+    :target: https://github.com/conestack/cone.fileupload/actions/workflows/test.yml
+    :alt: Test cone.fileupload
 
 This package integrates
 `jQueryFileUpload <https://github.com/blueimp/jQuery-File-Upload>`_ in cone.
