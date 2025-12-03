@@ -21,6 +21,16 @@ Changes
   [rnix]
 
 
+0.8 (2025-10-25)
+----------------
+
+- Pin upper versions of dependencies.
+  [rnix]
+
+- Replace deprecated use of ``allow_non_node_children`` by ``child_constraints``.
+  [rnix]
+
+
 0.7 (2022-01-19)
 ----------------
 
