@@ -4,6 +4,9 @@ Changes
 1.1.0 (unreleased)
 ------------------
 
+- Refactor package layout to use ``pyproject.toml`` and implicit namespace packages.
+  [rnix]
+
 - Setup Makefile.
   [lenadax]
 
@@ -15,6 +18,16 @@ Changes
 ------------------
 
 - Use ``webresource`` for resource registration.
+  [rnix]
+
+- Replace deprecated use of ``allow_non_node_children`` by ``child_constraints``.
+  [rnix]
+
+
+0.8 (2025-10-25)
+----------------
+
+- Pin upper versions of dependencies.
   [rnix]
 
 - Replace deprecated use of ``allow_non_node_children`` by ``child_constraints``.
