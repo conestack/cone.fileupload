@@ -1,16 +1,61 @@
-.file_actions {
-    text-align:right;
+form#fileupload {
+    container: fileuploadform / inline-size;
+
+    .files td {
+        vertical-align: middle;
+    }
 }
 
-.select-files-action > span {
-    position: relative;
-    display: block;
-    padding: 10px 15px;
-    color: #777;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, .25);
-    padding-top: 15px;
-    padding-bottom: 15px;
-    line-height: 20px;
+.file_actions {
+    white-space: nowrap;
+    text-align: right;
+
+    input {
+        vertical-align: middle;
+    }
+    .btn {
+        vertical-align: baseline;
+    }
+}
+
+@container fileuploadform (width < 400px) {
+    .file_actions {
+        .btn {
+            line-height: 1.25rem!important;
+            padding: .1rem .25rem!important;
+        }
+    }
+}
+@container fileuploadform (width < 500px) {
+    .fileupload-card  {
+        overflow: hidden;
+    }
+    .fileupload-card table {
+        table-layout: fixed;
+    }
+    td.file_name p.name {
+        text-overflow: ellipsis;
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    input[name="delete"] {
+        line-height: normal;
+        vertical-align: bottom;
+    }
+}
+@container fileuploadform (width < 800px) {
+    .file_actions {
+        .btn {
+            padding: .25rem .5rem;
+            line-height: normal;
+            vertical-align: bottom;
+
+            > span {
+                display: none;
+            }
+        }
+    }
 }
 
 .select-files-action > span > input {
@@ -18,4 +63,24 @@
     top: 2px;
     margin-top: 0px;
     margin-left: 8px;
+}
+
+#toolbaraction-add-files:hover {
+    background-color: var(--bs-green);
+    color: var(--bs-white);
+    transition: all .1s ease-in;
+}
+#toolbaraction-start-upload:hover {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+    transition: all .1s ease-in;
+}
+#toolbaraction-cancel-upload:hover {
+    background-color: var(--bs-warning);
+    transition: all .1s ease-in;
+}
+#toolbaraction-delete-files:hover {
+    background-color: var(--bs-red);
+    color: var(--bs-white);
+    transition: all .1s ease-in;
 }
