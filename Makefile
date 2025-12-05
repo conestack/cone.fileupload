@@ -202,21 +202,21 @@ ZEST_RELEASER_FULLRELEASE_OPTIONS?=
 
 # Path of directory containing the message catalogs.
 # Default: locale
-GETTEXT_LOCALES_PATH?=locale
+GETTEXT_LOCALES_PATH?=src/cone/fileupload/locale
 
 # Translation domain to use.
 # No default value.
-GETTEXT_DOMAIN?=
+GETTEXT_DOMAIN?=cone.fileupload
 
 # Space separated list of language identifiers.
 # No default value.
-GETTEXT_LANGUAGES?=
+GETTEXT_LANGUAGES?=en de
 
 ## i18n.lingua
 
 # Path of directory to extract translatable texts from.
 # Default: src
-LINGUA_SEARCH_PATH?=src
+LINGUA_SEARCH_PATH?=src/cone/fileupload
 
 # Python packages containing lingua extensions.
 # No default value.

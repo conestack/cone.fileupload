@@ -1,0 +1,99 @@
+#
+# English translations for PACKAGE package
+# This file is distributed under the same license as the PACKAGE package.
+# Robert Niederreiter <rnix@squarewave.at>, 2021.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE 1.0\n"
+"POT-Creation-Date: 2021-12-08 16:09+0100\n"
+"PO-Revision-Date: 2025-12-05 07:57+0100\n"
+"Last-Translator: Robert Niederreiter <rnix@squarewave.at>\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Lingua 4.14\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Default: Uploaded bytes exceed file size
+#: src/cone/fileupload/browser/fileupload.py:42
+msgid "uploaded_bytes"
+msgstr "Uploaded bytes exceed file size"
+
+#. Default: File type not allowed
+#: src/cone/fileupload/browser/fileupload.py:46
+msgid "accept_file_types"
+msgstr "File type not allowed"
+
+#. Default: Processing...
+#: src/cone/fileupload/browser/fileupload.py:57
+msgid "processing"
+msgstr "Processing..."
+
+#. Default: Start
+#: src/cone/fileupload/browser/fileupload.py:58
+msgid "start"
+msgstr "Start"
+
+#. Default: Cancel
+#: src/cone/fileupload/browser/fileupload.py:59
+#: src/cone/fileupload/browser/fileupload.py:69
+msgid "cancel"
+msgstr "Cancel"
+
+#. Default: Error
+#: src/cone/fileupload/browser/fileupload.py:67
+msgid "error"
+msgstr "Error"
+
+#. Default: Delete
+#: src/cone/fileupload/browser/fileupload.py:68
+#: src/cone/fileupload/browser/toolbar.pt:26
+msgid "delete"
+msgstr "Delete"
+
+#. Default: Download
+#: src/cone/fileupload/browser/fileupload.py:70
+msgid "download"
+msgstr "Download"
+
+#. Default: Add files...
+#: src/cone/fileupload/browser/toolbar.pt:10
+msgid "add_files"
+msgstr "Add files..."
+
+#. Default: Start upload
+#: src/cone/fileupload/browser/toolbar.pt:16
+msgid "start_upload"
+msgstr "Start upload"
+
+#. Default: Cancel upload
+#: src/cone/fileupload/browser/toolbar.pt:21
+msgid "cancel_upload"
+msgstr "Cancel upload"
+
+#. Default: Add files
+#: src/cone/fileupload/browser/actions.py:16
+msgid "action_add_files"
+msgstr "Add files"
+
+#. Default: Start Upload
+#: src/cone/fileupload/browser/actions.py:32
+msgid "action_start_upload"
+msgstr "Start Upload"
+
+#. Default: Cancel Upload
+#: src/cone/fileupload/browser/actions.py:49
+msgid "action_cancel_upload"
+msgstr "Cancel Upload"
+
+#. Default: Delete Files
+#: src/cone/fileupload/browser/actions.py:66
+msgid "action_delete_files"
+msgstr "Delete Files"
+
+#. Default: Select Files
+#: src/cone/fileupload/browser/actions.py:82
+msgid "action_select_files"
+msgstr "Select Files"
