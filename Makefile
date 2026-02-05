@@ -12,6 +12,7 @@
 #: i18n.lingua
 #: js.nodejs
 #: js.rollup
+#: js.wtr
 #: qa.coverage
 #: qa.test
 #
@@ -81,6 +82,16 @@ NODEJS_OPT_PACKAGES?=
 # and `--save-bundle`.
 # No default value.
 NODEJS_INSTALL_OPTS?=
+
+## js.wtr
+
+# Web test runner config file.
+# Default: wtr.config.mjs
+WTR_CONFIG?=js/wtr.config.mjs
+
+# Web test runner additional command line options.
+# Default: --coverage
+WTR_OPTIONS?=--coverage
 
 ## js.rollup
 
@@ -312,6 +323,18 @@ nodejs-clean: nodejs-dirty
 INSTALL_TARGETS+=nodejs
 DIRTY_TARGETS+=nodejs-dirty
 CLEAN_TARGETS+=nodejs-clean
+
+##############################################################################
+# web test runner
+##############################################################################
+
+NODEJS_DEV_PACKAGES+=\
+	@web/test-runner \
+	@web/dev-server-import-maps
+
+.PHONY: wtr
+wtr: $(NODEJS_TARGET)
+	@web-test-runner $(WTR_OPTIONS) --config $(WTR_CONFIG)
 
 ##############################################################################
 # rollup
