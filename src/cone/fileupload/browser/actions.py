@@ -12,7 +12,8 @@ _ = TranslationStringFactory('cone.fileupload')
 @context_menu_item(group='childactions', name='add_files')
 class ActionAddFiles(LinkAction):
     id = 'toolbaraction-add-files'
-    icon = 'glyphicon glyphicon-plus'
+    css = 'dropdown-item py-2 border-bottom alert alert-success rounded-0 m-0'
+    icon = 'bi bi-file-earmark-plus'
     text = _('action_add_files', default='Add files')
     bind = None
     target = None
@@ -28,9 +29,9 @@ class ActionAddFiles(LinkAction):
 @context_menu_item(group='childactions', name='start_upload')
 class ActionStartUpload(ButtonAction):
     id = 'toolbaraction-start-upload'
-    icon = 'glyphicon glyphicon-upload'
+    icon = 'bi bi-upload'
     text = _('action_start_upload', default='Start Upload')
-    css = 'start'
+    css = 'start dropdown-item py-2 border-bottom alert alert-primary rounded-0 m-0'
     bind = None
     target = None
 
@@ -45,9 +46,9 @@ class ActionStartUpload(ButtonAction):
 @context_menu_item(group='childactions', name='cancel_upload')
 class ActionCancelUpload(ButtonAction):
     id = 'toolbaraction-cancel-upload'
-    icon = 'glyphicon glyphicon-ban-circle'
+    icon = 'bi bi-x-circle'
     text = _('action_cancel_upload', default='Cancel Upload')
-    css = 'cancel'
+    css = 'cancel dropdown-item py-2 border-bottom alert alert-warning rounded-0 m-0'
     bind = None
     target = None
 
@@ -59,12 +60,13 @@ class ActionCancelUpload(ButtonAction):
         )
 
 
+# XXX: not working
 @context_menu_item(group='childactions', name='delete_files')
 class ActionDeleteFiles(ButtonAction):
     id = 'toolbaraction-delete-files'
-    icon = 'glyphicon glyphicon-trash'
+    icon = 'bi bi-trash'
     text = _('action_delete_files', default='Delete Files')
-    css = 'delete'
+    css = 'delete dropdown-item py-2 border-bottom alert alert-danger rounded-0 m-0'
     bind = None
     target = None
 
@@ -91,7 +93,7 @@ class ActionSelectFiles(Action):
     def render(self):
         localizer = get_localizer(self.request)
         return (
-            u'<li class="select-files-action">'
+            u'<li class="select-files-action nav-link">'
             u'  <span>{}<input type="checkbox" class="toggle" /></span>'
             u'</li>'
         ).format(

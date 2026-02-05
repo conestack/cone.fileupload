@@ -55,7 +55,7 @@
       // uploads, set the following option to true:
       autoUpload: false,
       // The class to show/hide UI elements:
-      showElementClass: 'in',
+      showElementClass: 'show',
       // The ID of the upload template:
       uploadTemplateId: 'template-upload',
       // The ID of the download template:
@@ -83,7 +83,7 @@
 
       // Callback to retrieve the list of files from the server response:
       getFilesFromResponse: function (data) {
-        if (data.result && $.isArray(data.result.files)) {
+        if (data.result && Array.isArray(data.result.files)) {
           return data.result.files;
         }
         return [];

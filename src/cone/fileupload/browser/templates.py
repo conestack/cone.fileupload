@@ -12,31 +12,30 @@ UPLOAD_TEMPLATE = u"""
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-upload fade">
         <td>
-            <p class="name">{{%=file.name%}}</p>
-            <strong class="error text-danger"></strong>
+          <p class="name m-0">{{%=file.name%}}</p>
         </td>
         <td>
             <p class="size">{processing}</p>
-            <div class="progress progress-striped active"
+            <div class="progress border border-primary active w-100"
                  role="progressbar"
                  aria-valuemin="0"
                  aria-valuemax="100"
                  aria-valuenow="0">
-                <div class="progress-bar progress-bar-success"
+                <div class="progress-bar progress-bar-striped progress-bar-animated h-100"
                      style="width:0%;">
                 </div>
             </div>
         </td>
         <td class="file_actions">
             {{% if (!i && !o.options.autoUpload) {{ %}}
-                <button class="btn btn-primary start" disabled>
-                    <i class="glyphicon glyphicon-upload"></i>
+                <button class="btn btn-outline-primary start" disabled>
+                    <i class="bi bi-upload"></i>
                     <span>{start}</span>
                 </button>
             {{% }} %}}
             {{% if (!i) {{ %}}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
+                <button class="btn btn-outline-warning cancel">
+                    <i class="bi bi-x-circle"></i>
                     <span>{cancel}</span>
                 </button>
             {{% }} %}}
@@ -51,8 +50,8 @@ DOWNLOAD_TEMPLATE = u"""
 <script id="template-download" type="text/x-tmpl">
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-download fade">
-        <td>
-            <p class="name" data-filename="{{%=file.name%}}">
+        <td class="file_name">
+            <p class="name m-0" data-filename="{{%=file.name%}}">
                 <a href="{{%=file.view_url%}}"
                    title="{{%=file.name%}}"
                    onclick="cone_fileupload.show_file(event, '{{%=file.view_url%}}');">
@@ -60,39 +59,43 @@ DOWNLOAD_TEMPLATE = u"""
                 </a>
             </p>
             {{% if (file.error) {{ %}}
-                <div>
-                  <span class="label label-danger">{error}</span>
+                <div class="alert alert-danger m-0 mt-1 px-2 py-1">
+                  <i class="bi bi-x-octagon me-1"></i>
+                  <span>{error}</span>:
                   {{%=file.error%}}
                 </div>
             {{% }} %}}
         </td>
-        <td>
+        <td class="text-nowrap">
             <span class="size">{{%=o.formatFileSize(file.size)%}}</span>
         </td>
         <td class="file_actions">
             {{% if (file.download_url) {{ %}}
-                <a class="btn btn-default download"
+                <a class="btn btn-sm btn-outline-primary download"
                    href="{{%=file.download_url%}}"
                    title="{{%=file.name%}}"
                    download="{{%=file.name%}}">
-                  <i class="glyphicon glyphicon-download"></i>
+                  <i class="bi bi-download"></i>
                   <span>{download}</span>
                 </a>
             {{% }} %}}
             {{% if (file.delete_url) {{ %}}
-                <button class="btn btn-danger delete"
+                <button class="btn btn-sm btn-outline-danger delete"
                         data-type="{{%=file.delete_type%}}"
                         data-url="{{%=file.delete_url%}}"
+                        title="{delete}"
                         {{% if (file.deleteWithCredentials) {{ %}}
                         data-xhr-fields='{{"withCredentials":true}}'
                         {{% }} %}}>
-                    <i class="glyphicon glyphicon-trash"></i>
+                    <i class="bi bi-trash"></i>
                     <span>{delete}</span>
                 </button>
-                <input type="checkbox" name="delete" value="1" class="toggle">
+                <input type="checkbox"
+                       class="mx-2 d-inline-block form-check"
+                       name="delete" value="1" class="toggle">
             {{% }} else {{ %}}
-                <button class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
+                <button class="btn btn-sm btn-outline-warning cancel" title="{cancel}">
+                    <i class="bi bi-x-circle"></i>
                     <span>{cancel}</span>
                 </button>
             {{% }} %}}

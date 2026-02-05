@@ -1,10 +1,10 @@
 Changes
 =======
 
-1.1.1 (unreleased)
+2.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Bootstrap 5 styles.
 
 
 1.1.0 (2026-02-03)

@@ -27,6 +27,14 @@ export class Fileupload {
             sequentialUploads: true,
             messages: fileupload_i18n_messages
         });
+        $('#fileupload').on('click', '.delete', (e) => {
+            e.preventDefault();
+            if ($('.template-upload, .template-download', elem).length === 1) {
+                // last item not deleted yet
+                $('.fileupload-empty', this.elem).show();
+            }
+        });
+
         // check accept file types
         let accept_file_types = elem.data('accept_file_types');
         if (accept_file_types) {
@@ -46,6 +54,7 @@ export class Fileupload {
     add_files_handle(evt) {
         evt.preventDefault();
         $('input:file', this.elem).click();
+        $('.fileupload-empty', this.elem).hide();
     }
 
     load_existing() {
@@ -60,6 +69,9 @@ export class Fileupload {
         }).done(function (result) {
             $(this).fileupload('option', 'done').call(
                 this, $.Event('done'), {result: result});
+            if (result.files.length > 0) {
+                $('.fileupload-empty', this).hide();
+            }
         });
     }
 }
