@@ -83,7 +83,7 @@
           fileSize = file.size;
         }
         if (
-          $.type(options.maxNumberOfFiles) === 'number' &&
+          (typeof options.maxNumberOfFiles === 'number') &&
           (settings.getNumberOfFiles() || 0) + data.files.length >
             options.maxNumberOfFiles
         ) {
@@ -99,7 +99,7 @@
         } else if (fileSize > options.maxFileSize) {
           file.error = settings.i18n('maxFileSize');
         } else if (
-          $.type(fileSize) === 'number' &&
+          (typeof fileSize === 'number') &&
           fileSize < options.minFileSize
         ) {
           file.error = settings.i18n('minFileSize');
