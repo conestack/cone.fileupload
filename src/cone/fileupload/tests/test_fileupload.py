@@ -2,6 +2,11 @@ from cgi import FieldStorage
 from cone.app import testing
 from cone.app.model import BaseNode
 from cone.fileupload import browser
+from cone.fileupload.browser.actions import ActionAddFiles
+from cone.fileupload.browser.actions import ActionCancelUpload
+from cone.fileupload.browser.actions import ActionDeleteFiles
+from cone.fileupload.browser.actions import ActionSelectFiles
+from cone.fileupload.browser.actions import ActionStartUpload
 from cone.fileupload.browser.fileupload import filedelete_handle
 from cone.fileupload.browser.fileupload import fileupload
 from cone.fileupload.browser.fileupload import FileUploadHandle
@@ -13,10 +18,7 @@ from pyramid.security import ALL_PERMISSIONS
 from pyramid.security import Allow
 from pyramid.security import Deny
 from pyramid.security import Everyone
-try:
-    from StringIO import StringIO
-except ImportError:  # pragma: no cover
-    from io import StringIO
+from io import StringIO
 import os
 import unittest
 
@@ -60,9 +62,9 @@ class ContainerFileUploadHandle(FileUploadHandle):
         return {
             'name': filename,
             'size': len(file['body']),
-            'view_url': '/{0}'.format(file.name),
-            'download_url': '/{0}/download'.format(file.name),
-            'delete_url': '/{0}/filedelete_handle'.format(file.name),
+            'view_url': f'/{file.name}',
+            'download_url': f'/{file.name}/download',
+            'delete_url': f'/{file.name}/filedelete_handle',
             'delete_type': 'GET',
         }
 
@@ -72,9 +74,9 @@ class ContainerFileUploadHandle(FileUploadHandle):
             files.append({
                 'name': node.name,
                 'size': len(node['body']),
-                'view_url': '/{0}'.format(node.name),
-                'download_url': '/{0}/download'.format(node.name),
-                'delete_url': '/{0}/filedelete_handle'.format(node.name),
+                'view_url': f'/{node.name}',
+                'download_url': f'/{node.name}/download',
+                'delete_url': f'/{node.name}/filedelete_handle',
                 'delete_type': 'GET',
             })
         return files
@@ -130,6 +132,38 @@ class TestFileupload(TileTestCase):
 
         self.assertTrue(response.text.startswith('<!DOCTYPE html'))
         self.assertTrue(response.text.find('<form id="fileupload"') > -1)
+
+    def test_actions_displayed_if_enabled_and_permitted(self):
+        container = ContainerNode(name='container')
+        request = self.layer.new_request()
+        actions = [
+            ActionAddFiles(),
+            ActionStartUpload(),
+            ActionCancelUpload(),
+            ActionDeleteFiles(),
+            ActionSelectFiles()
+        ]
+
+        # Context menu actions not enabled on model
+        with self.layer.authenticated('manager'):
+            for action in actions:
+                self.assertEqual(action(container, request), '')
+
+        # Enabled, but not permitted
+        container.properties.fileupload_contextmenu_actions = True
+        for action in actions:
+            self.assertEqual(action(container, request), '')
+
+        # Enabled and permitted
+        with self.layer.authenticated('manager'):
+            for action in actions:
+                self.assertNotEqual(action(container, request), '')
+            self.assertEqual(ActionSelectFiles()(container, request), (
+                '<li class="select-files-action nav-link">'
+                '  <span>Select Files<input type="checkbox" class="toggle" />'
+                '</span>'
+                '</li>'
+            ))
 
     def test_fileupload_handle(self):
         # Abstract file upload handle

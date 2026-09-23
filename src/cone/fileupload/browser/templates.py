@@ -1,4 +1,4 @@
-I18N_MESSAGES = u"""
+I18N_MESSAGES = """
 <script type="text/javascript">
     var fileupload_i18n_messages = new Object();
     fileupload_i18n_messages.uploadedBytes = '{uploaded_bytes}';
@@ -7,7 +7,7 @@ I18N_MESSAGES = u"""
 """
 
 
-UPLOAD_TEMPLATE = u"""
+UPLOAD_TEMPLATE = """
 <script id="template-upload" type="text/x-tmpl">
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-upload fade">
@@ -46,7 +46,7 @@ UPLOAD_TEMPLATE = u"""
 """
 
 
-DOWNLOAD_TEMPLATE = u"""
+DOWNLOAD_TEMPLATE = """
 <script id="template-download" type="text/x-tmpl">
 {{% for (var i=0, file; file=o.files[i]; i++) {{ %}}
     <tr class="template-download fade">

@@ -4,6 +4,22 @@ Changes
 2.0.0 (unreleased)
 ------------------
 
+- Drop the Python 2 ``StringIO`` import fallback in tests.
+  [rnix]
+
+- Modernise the code ruff flags as outdated: ``u''`` prefixes, ``class
+  X(object)``, ``.format()`` over f-strings. Behaviour unchanged.
+  ``super(Class, self)`` is kept, see ``cone.app``.
+  [rnix]
+
+- Add ``qa.ruff`` domain to Makefile and pin the ruff rule selection in
+  ``pyproject.toml``, ``make check`` runs ``ruff check``.
+  [rnix]
+
+- Pin ``setuptools<82.0.0`` in ``mx.ini``. ``pyramid`` 2.0.2 still imports
+  ``pkg_resources``, which ``setuptools`` 82 removed.
+  [rnix]
+
 - Bootstrap 5 styles.
 
 

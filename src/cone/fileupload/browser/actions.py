@@ -91,11 +91,9 @@ class ActionSelectFiles(Action):
         )
 
     def render(self):
-        localizer = get_localizer(self.request)
+        text = get_localizer(self.request).translate(self.text)
         return (
-            u'<li class="select-files-action nav-link">'
-            u'  <span>{}<input type="checkbox" class="toggle" /></span>'
-            u'</li>'
-        ).format(
-            localizer.translate(self.text)
+            '<li class="select-files-action nav-link">'
+            f'  <span>{text}<input type="checkbox" class="toggle" /></span>'
+            '</li>'
         )

@@ -54,10 +54,10 @@ class FileUploadTile(Tile):
         localizer = get_localizer(self.request)
         translate = localizer.translate
         return self.upload_template_src.format(
-            error=translate(_('error', default=u'Error')),
-            processing=translate(_('processing', default=u'Processing...')),
-            start=translate(_('start', default=u'Start')),
-            cancel=translate(_('cancel', default=u'Cancel')),
+            error=translate(_('error', default='Error')),
+            processing=translate(_('processing', default='Processing...')),
+            start=translate(_('start', default='Start')),
+            cancel=translate(_('cancel', default='Cancel')),
         )
 
     @property
@@ -65,10 +65,10 @@ class FileUploadTile(Tile):
         localizer = get_localizer(self.request)
         translate = localizer.translate
         return self.download_template_src.format(
-            error=translate(_('error', default=u'Error')),
-            delete=translate(_('delete', default=u'Delete')),
-            cancel=translate(_('cancel', default=u'Cancel')),
-            download=translate(_('download', default=u'Download')),
+            error=translate(_('error', default='Error')),
+            delete=translate(_('delete', default='Delete')),
+            cancel=translate(_('cancel', default='Cancel')),
+            download=translate(_('download', default='Download')),
         )
 
     @property
@@ -96,7 +96,7 @@ UNKNOWN_MIMETYPE = object()
     accept='application/json',
     renderer='json',
     permission='add')
-class FileUploadHandle(object):
+class FileUploadHandle:
     """Abstract file upload handle.
 
     Subclass this object and register ``fileupload_handle`` tile for specific
