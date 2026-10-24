@@ -20,9 +20,8 @@ class ActionAddFiles(LinkAction):
 
     @property
     def display(self):
-        return (
-            self.model.properties.fileupload_contextmenu_actions
-            and self.permitted('add')
+        return self.model.properties.fileupload_contextmenu_actions and self.permitted(
+            'add'
         )
 
 
@@ -37,9 +36,8 @@ class ActionStartUpload(ButtonAction):
 
     @property
     def display(self):
-        return (
-            self.model.properties.fileupload_contextmenu_actions
-            and self.permitted('add')
+        return self.model.properties.fileupload_contextmenu_actions and self.permitted(
+            'add'
         )
 
 
@@ -54,9 +52,8 @@ class ActionCancelUpload(ButtonAction):
 
     @property
     def display(self):
-        return (
-            self.model.properties.fileupload_contextmenu_actions
-            and self.permitted('add')
+        return self.model.properties.fileupload_contextmenu_actions and self.permitted(
+            'add'
         )
 
 
@@ -72,9 +69,8 @@ class ActionDeleteFiles(ButtonAction):
 
     @property
     def display(self):
-        return (
-            self.model.properties.fileupload_contextmenu_actions
-            and self.permitted('delete')
+        return self.model.properties.fileupload_contextmenu_actions and self.permitted(
+            'delete'
         )
 
 
@@ -85,9 +81,8 @@ class ActionSelectFiles(Action):
 
     @property
     def display(self):
-        return (
-            self.model.properties.fileupload_contextmenu_actions
-            and self.permitted('delete')
+        return self.model.properties.fileupload_contextmenu_actions and self.permitted(
+            'delete'
         )
 
     def render(self):

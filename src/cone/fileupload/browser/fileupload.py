@@ -11,13 +11,9 @@ from pyramid.view import view_config
 _ = TranslationStringFactory('cone.fileupload')
 
 
-@tile(
-    name='fileupload_toolbar',
-    path='toolbar.pt',
-    permission='add')
+@tile(name='fileupload_toolbar', path='toolbar.pt', permission='add')
 class FileUploadToolbarTile(Tile):
-    """Tile rendering the file upload toolbar.
-    """
+    """Tile rendering the file upload toolbar."""
 
 
 @tile(name='fileupload', path='fileupload.pt', permission='add')
@@ -25,6 +21,7 @@ class FileUploadTile(Tile):
     """Register this tile for specific context if jQuery file upload settings
     should be customized.
     """
+
     accept_file_types = ''  # e.g. /(\.|\/)(gif|jpe?g|png)$/i
     i18n_messages_src = templates.I18N_MESSAGES
     upload_template_src = templates.UPLOAD_TEMPLATE
@@ -39,14 +36,12 @@ class FileUploadTile(Tile):
         localizer = get_localizer(self.request)
         translate = localizer.translate
         return self.i18n_messages_src.format(
-            uploaded_bytes=translate(_(
-                'uploaded_bytes',
-                default='Uploaded bytes exceed file size'
-            )),
-            accept_file_types=translate(_(
-                'accept_file_types',
-                default='File type not allowed'
-            ))
+            uploaded_bytes=translate(
+                _('uploaded_bytes', default='Uploaded bytes exceed file size')
+            ),
+            accept_file_types=translate(
+                _('accept_file_types', default='File type not allowed')
+            ),
         )
 
     @property
@@ -73,17 +68,12 @@ class FileUploadTile(Tile):
 
     @property
     def upload_url(self):
-        return make_url(
-            self.request,
-            node=self.model,
-            resource='fileupload_handle'
-        )
+        return make_url(self.request, node=self.model, resource='fileupload_handle')
 
 
 @view_config(name='fileupload', permission='add')
 def fileupload(model, request):
-    """Fileupload as traversable view.
-    """
+    """Fileupload as traversable view."""
     return render_main_template(model, request, 'fileupload')
 
 
@@ -92,10 +82,8 @@ UNKNOWN_MIMETYPE = object()
 
 
 @view_config(
-    name='fileupload_handle',
-    accept='application/json',
-    renderer='json',
-    permission='add')
+    name='fileupload_handle', accept='application/json', renderer='json', permission='add'
+)
 class FileUploadHandle:
     """Abstract file upload handle.
 
@@ -158,10 +146,7 @@ class FileUploadHandle:
         return {
             'name': filename,
             'size': 0,
-            'error': (
-                'Abstract ``FileUploadHandle`` does not '
-                'implement ``create_file``'
-            )
+            'error': ('Abstract ``FileUploadHandle`` does not implement ``create_file``'),
         }
 
 
@@ -169,7 +154,8 @@ class FileUploadHandle:
     name='filedelete_handle',
     accept='application/json',
     renderer='json',
-    permission='delete')
+    permission='delete',
+)
 def filedelete_handle(model, request):
     """Delete file and return client data.
 

@@ -13,22 +13,19 @@ from cone.fileupload.browser.fileupload import FileUploadHandle
 from cone.fileupload.browser.fileupload import templates
 from cone.tile import render_tile
 from cone.tile.tests import TileTestCase
+from io import StringIO
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.security import ALL_PERMISSIONS
 from pyramid.security import Allow
 from pyramid.security import Deny
 from pyramid.security import Everyone
-from io import StringIO
 import os
 import unittest
 
 
 class FileuploadLayer(testing.Security):
-
     def make_app(self, **kw):
-        super(FileuploadLayer, self).make_app(**{
-            'cone.plugins': 'cone.fileupload'
-        })
+        super(FileuploadLayer, self).make_app(**{'cone.plugins': 'cone.fileupload'})
 
 
 fileupload_layer = FileuploadLayer()
@@ -37,7 +34,7 @@ fileupload_layer = FileuploadLayer()
 ACL = [
     (Allow, 'role:manager', ['add', 'delete']),
     (Allow, Everyone, ['login']),
-    (Deny, Everyone, ALL_PERMISSIONS)
+    (Deny, Everyone, ALL_PERMISSIONS),
 ]
 
 
@@ -55,7 +52,6 @@ class File(BaseNode):
 
 
 class ContainerFileUploadHandle(FileUploadHandle):
-
     def create_file(self, stream, filename, mimetype):
         file = self.model[filename] = File()
         file['body'] = stream.read()
@@ -71,14 +67,16 @@ class ContainerFileUploadHandle(FileUploadHandle):
     def read_existing(self):
         files = list()
         for node in self.model.values():
-            files.append({
-                'name': node.name,
-                'size': len(node['body']),
-                'view_url': f'/{node.name}',
-                'download_url': f'/{node.name}/download',
-                'delete_url': f'/{node.name}/filedelete_handle',
-                'delete_type': 'GET',
-            })
+            files.append(
+                {
+                    'name': node.name,
+                    'size': len(node['body']),
+                    'view_url': f'/{node.name}',
+                    'download_url': f'/{node.name}/download',
+                    'delete_url': f'/{node.name}/filedelete_handle',
+                    'delete_type': 'GET',
+                }
+            )
         return files
 
 
@@ -87,17 +85,26 @@ class TestFileupload(TileTestCase):
 
     def test_default_templates(self):
         # Default i18n messages, upload and download templates
-        self.checkOutput("""
+        self.checkOutput(
+            """
         <script type="text/javascript">...</script>
-        """, templates.I18N_MESSAGES)
+        """,
+            templates.I18N_MESSAGES,
+        )
 
-        self.checkOutput("""
+        self.checkOutput(
+            """
         <script id="template-upload" type="text/x-tmpl">...</script>
-        """, templates.UPLOAD_TEMPLATE)
+        """,
+            templates.UPLOAD_TEMPLATE,
+        )
 
-        self.checkOutput("""
+        self.checkOutput(
+            """
         <script id="template-download" type="text/x-tmpl">...</script>
-        """, templates.DOWNLOAD_TEMPLATE)
+        """,
+            templates.DOWNLOAD_TEMPLATE,
+        )
 
     def test_fileupload_tile(self):
         container = ContainerNode(name='container')
@@ -105,17 +112,16 @@ class TestFileupload(TileTestCase):
         # Render fileupload tile unauthorized
         request = self.layer.new_request()
         err = self.expectError(
-            HTTPForbidden,
-            render_tile,
-            container,
-            request,
-            'fileupload'
+            HTTPForbidden, render_tile, container, request, 'fileupload'
         )
-        self.checkOutput("""
+        self.checkOutput(
+            """
         Unauthorized: tile
         <cone.fileupload.browser.fileupload.FileUploadTile object at ...>
         failed permission check
-        """, str(err))
+        """,
+            str(err),
+        )
 
         # Render fileupload tile authorized
         with self.layer.authenticated('manager'):
@@ -141,7 +147,7 @@ class TestFileupload(TileTestCase):
             ActionStartUpload(),
             ActionCancelUpload(),
             ActionDeleteFiles(),
-            ActionSelectFiles()
+            ActionSelectFiles(),
         ]
 
         # Context menu actions not enabled on model
@@ -158,12 +164,15 @@ class TestFileupload(TileTestCase):
         with self.layer.authenticated('manager'):
             for action in actions:
                 self.assertNotEqual(action(container, request), '')
-            self.assertEqual(ActionSelectFiles()(container, request), (
-                '<li class="select-files-action nav-link">'
-                '  <span>Select Files<input type="checkbox" class="toggle" />'
-                '</span>'
-                '</li>'
-            ))
+            self.assertEqual(
+                ActionSelectFiles()(container, request),
+                (
+                    '<li class="select-files-action nav-link">'
+                    '  <span>Select Files<input type="checkbox" class="toggle" />'
+                    '</span>'
+                    '</li>'
+                ),
+            )
 
     def test_fileupload_handle(self):
         # Abstract file upload handle
@@ -190,7 +199,7 @@ class TestFileupload(TileTestCase):
         self.assertEqual(res['files'][0]['size'], 0)
         self.assertEqual(
             res['files'][0]['error'],
-            'Abstract ``FileUploadHandle`` does not implement ``create_file``'
+            'Abstract ``FileUploadHandle`` does not implement ``create_file``',
         )
 
         # Concrete implementation of file upload handle
@@ -198,44 +207,59 @@ class TestFileupload(TileTestCase):
 
         # Upload file
         res = upload_handle()
-        self.assertEqual(res['files'], [{
-            'name': 'test.txt',
-            'size': 16,
-            'view_url': '/test.txt',
-            'download_url': '/test.txt/download',
-            'delete_url': '/test.txt/filedelete_handle',
-            'delete_type': 'GET'
-        }])
+        self.assertEqual(
+            res['files'],
+            [
+                {
+                    'name': 'test.txt',
+                    'size': 16,
+                    'view_url': '/test.txt',
+                    'download_url': '/test.txt/download',
+                    'delete_url': '/test.txt/filedelete_handle',
+                    'delete_type': 'GET',
+                }
+            ],
+        )
 
-        self.checkOutput("""
+        self.checkOutput(
+            """
         <class 'cone.fileupload.tests.test_fileupload.ContainerNode'>: container
           <class 'cone.fileupload.tests.test_fileupload.File'>: test.txt
             body: 'I am the payload'
-        """, container.treerepr())
+        """,
+            container.treerepr(),
+        )
 
         # Read existing files
         request = self.layer.new_request()
         upload_handle = ContainerFileUploadHandle(container, request)
-        self.assertEqual(upload_handle()['files'], [{
-            'name': 'test.txt',
-            'size': 16,
-            'view_url': '/test.txt',
-            'download_url': '/test.txt/download',
-            'delete_url': '/test.txt/filedelete_handle',
-            'delete_type': 'GET'
-        }])
+        self.assertEqual(
+            upload_handle()['files'],
+            [
+                {
+                    'name': 'test.txt',
+                    'size': 16,
+                    'view_url': '/test.txt',
+                    'download_url': '/test.txt/download',
+                    'delete_url': '/test.txt/filedelete_handle',
+                    'delete_type': 'GET',
+                }
+            ],
+        )
 
         # Test file delete handle
         file = container['test.txt']
         request = self.layer.new_request()
         self.assertEqual(
-            filedelete_handle(file, request),
-            {'files': [{'test.txt': True}]}
+            filedelete_handle(file, request), {'files': [{'test.txt': True}]}
         )
 
-        self.checkOutput("""
+        self.checkOutput(
+            """
         <class 'cone.fileupload.tests.test_fileupload.ContainerNode'>: container
-        """, container.treerepr())
+        """,
+            container.treerepr(),
+        )
 
 
 def np(path):
@@ -254,12 +278,16 @@ class TestResources(unittest.TestCase):
         scripts = resources_.scripts
         self.assertEqual(len(scripts), 7)
 
-        self.assertTrue(scripts[0].directory.endswith(np('/static/jquery-fileupload/vendor')))
+        self.assertTrue(
+            scripts[0].directory.endswith(np('/static/jquery-fileupload/vendor'))
+        )
         self.assertEqual(scripts[0].path, 'jquery-fileupload/vendor')
         self.assertEqual(scripts[0].file_name, 'tmpl.min.js')
         self.assertTrue(os.path.exists(scripts[0].file_path))
 
-        self.assertTrue(scripts[1].directory.endswith(np('/static/jquery-fileupload/vendor')))
+        self.assertTrue(
+            scripts[1].directory.endswith(np('/static/jquery-fileupload/vendor'))
+        )
         self.assertEqual(scripts[1].path, 'jquery-fileupload/vendor')
         self.assertEqual(scripts[1].file_name, 'jquery.ui.widget.js')
         self.assertTrue(os.path.exists(scripts[1].file_path))
