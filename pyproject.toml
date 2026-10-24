@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cone.fileupload"
-version = "2.0.0.dev0"
+version = "2.0.0"
 description = "jQuery File Upload integration for cone.app"
 dynamic = ["readme"]
 requires-python = ">=3.10"

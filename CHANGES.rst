@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.0.0 (unreleased)
+2.0.0 (2026-10-24)
 ------------------
 
 - Drop the Python 2 ``StringIO`` import fallback in tests.
