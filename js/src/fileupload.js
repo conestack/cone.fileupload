@@ -5,15 +5,14 @@ export function show_file(evt, url) {
     bdajax.path({
         path: bdajax.parsepath(url),
         target: url,
-        event: 'contextchanged:#layout'
+        event: 'contextchanged:#layout',
     });
     bdajax.trigger('contextchanged', '#layout', url);
 }
 
 export class Fileupload {
-
     static initialize(context) {
-        let fileupload = $('#fileupload', context);
+        const fileupload = $('#fileupload', context);
         if (!fileupload.length) {
             return;
         }
@@ -25,7 +24,7 @@ export class Fileupload {
         // initialize fileupload plugin
         elem.fileupload({
             sequentialUploads: true,
-            messages: fileupload_i18n_messages
+            messages: fileupload_i18n_messages,
         });
         $('#fileupload').on('click', '.delete', (e) => {
             e.preventDefault();
@@ -36,17 +35,16 @@ export class Fileupload {
         });
 
         // check accept file types
-        let accept_file_types = elem.data('accept_file_types');
+        const accept_file_types = elem.data('accept_file_types');
         if (accept_file_types) {
             elem.fileupload('option', {
-                acceptFileTypes: eval(accept_file_types)
+                // biome-ignore lint/security/noGlobalEval: accept_file_types is a JS regex literal from server side config, evaluated as such by design
+                acceptFileTypes: eval(accept_file_types),
             });
         }
         // bind add files action
         this.add_files_handle = this.add_files_handle.bind(this);
-        $('#toolbaraction-add-files', elem)
-            .off()
-            .on('click', this.add_files_handle);
+        $('#toolbaraction-add-files', elem).off().on('click', this.add_files_handle);
         // load existing files
         this.load_existing();
     }
@@ -63,15 +61,18 @@ export class Fileupload {
         $.ajax({
             url: this.elem.data('url'),
             dataType: 'json',
-            context: this.elem[0]
-        }).always(function () {
-            $(this).removeClass('fileupload-processing');
-        }).done(function (result) {
-            $(this).fileupload('option', 'done').call(
-                this, $.Event('done'), {result: result});
-            if (result.files.length > 0) {
-                $('.fileupload-empty', this).hide();
-            }
-        });
+            context: this.elem[0],
+        })
+            .always(function () {
+                $(this).removeClass('fileupload-processing');
+            })
+            .done(function (result) {
+                $(this)
+                    .fileupload('option', 'done')
+                    .call(this, $.Event('done'), { result: result });
+                if (result.files.length > 0) {
+                    $('.fileupload-empty', this).hide();
+                }
+            });
     }
 }

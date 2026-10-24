@@ -1,18 +1,15 @@
 import $ from 'jquery';
-import {show_file, Fileupload} from '../src/fileupload.js';
+import { Fileupload, show_file } from '../src/fileupload.js';
 
-QUnit.module('cone.fileupload.show_file', hooks => {
-
+QUnit.module('cone.fileupload.show_file', (hooks) => {
     let bdajax_origin;
 
     hooks.beforeEach(() => {
         bdajax_origin = window.bdajax;
         window.bdajax = {
-            parsepath: function(url) {
-                return url.replace(/^https?:\/\/[^\/]+/, '');
-            },
-            path: function(opts) {},
-            trigger: function(evt, selector, url) {}
+            parsepath: (url) => url.replace(/^https?:\/\/[^/]+/, ''),
+            path: () => {},
+            trigger: () => {},
         };
     });
 
@@ -20,14 +17,14 @@ QUnit.module('cone.fileupload.show_file', hooks => {
         window.bdajax = bdajax_origin;
     });
 
-    QUnit.test('show_file calls bdajax.path with correct options', assert => {
+    QUnit.test('show_file calls bdajax.path with correct options', (assert) => {
         let path_opts;
-        window.bdajax.path = function(opts) {
+        window.bdajax.path = (opts) => {
             path_opts = opts;
         };
 
-        let evt = $.Event('click');
-        let url = 'http://example.com/path/to/file';
+        const evt = $.Event('click');
+        const url = 'http://example.com/path/to/file';
 
         show_file(evt, url);
 
@@ -37,14 +34,14 @@ QUnit.module('cone.fileupload.show_file', hooks => {
         assert.strictEqual(path_opts.event, 'contextchanged:#layout');
     });
 
-    QUnit.test('show_file triggers contextchanged event', assert => {
+    QUnit.test('show_file triggers contextchanged event', (assert) => {
         let trigger_args;
-        window.bdajax.trigger = function(evt, selector, url) {
-            trigger_args = {evt, selector, url};
+        window.bdajax.trigger = (evt, selector, url) => {
+            trigger_args = { evt, selector, url };
         };
 
-        let evt = $.Event('click');
-        let url = 'http://example.com/some/path';
+        const evt = $.Event('click');
+        const url = 'http://example.com/some/path';
 
         show_file(evt, url);
 
@@ -54,26 +51,38 @@ QUnit.module('cone.fileupload.show_file', hooks => {
     });
 });
 
-QUnit.module('cone.fileupload.Fileupload.initialize', hooks => {
-
-    let container;
+QUnit.module('cone.fileupload.Fileupload.initialize', (hooks) => {
+    let container, ajax_origin;
 
     hooks.beforeEach(() => {
+        ajax_origin = $.ajax;
+        $.ajax = () => ({
+            always: function () {
+                return this;
+            },
+            done: function () {
+                return this;
+            },
+        });
+
         container = $('<div />').appendTo('body');
         window.fileupload_i18n_messages = {};
-        $.fn.fileupload = function() { return this; };
+        $.fn.fileupload = function () {
+            return this;
+        };
     });
 
     hooks.afterEach(() => {
         container.remove();
+        $.ajax = ajax_origin;
         delete window.fileupload_i18n_messages;
         delete $.fn.fileupload;
     });
 
-    QUnit.test('initialize does nothing if no #fileupload element', assert => {
+    QUnit.test('initialize does nothing if no #fileupload element', (assert) => {
         let initialized = false;
-        let orig_fileupload = $.fn.fileupload;
-        $.fn.fileupload = function() {
+        const orig_fileupload = $.fn.fileupload;
+        $.fn.fileupload = function () {
             initialized = true;
             return this;
         };
@@ -84,9 +93,9 @@ QUnit.module('cone.fileupload.Fileupload.initialize', hooks => {
         $.fn.fileupload = orig_fileupload;
     });
 
-    QUnit.test('initialize creates Fileupload instance when element exists', assert => {
+    QUnit.test('initialize creates Fileupload instance when element exists', (assert) => {
         let fileupload_called = false;
-        $.fn.fileupload = function() {
+        $.fn.fileupload = function () {
             fileupload_called = true;
             return this;
         };
@@ -99,20 +108,19 @@ QUnit.module('cone.fileupload.Fileupload.initialize', hooks => {
     });
 });
 
-QUnit.module('cone.fileupload.Fileupload.constructor', hooks => {
-
-    let container,
-        elem,
-        ajax_origin;
+QUnit.module('cone.fileupload.Fileupload.constructor', (hooks) => {
+    let container, elem, ajax_origin;
 
     hooks.beforeEach(() => {
         ajax_origin = $.ajax;
-        $.ajax = function() {
-            return {
-                always: function() { return this; },
-                done: function() { return this; }
-            };
-        };
+        $.ajax = () => ({
+            always: function () {
+                return this;
+            },
+            done: function () {
+                return this;
+            },
+        });
 
         container = $('<div />').appendTo('body');
         elem = $(`
@@ -123,9 +131,9 @@ QUnit.module('cone.fileupload.Fileupload.constructor', hooks => {
             </div>
         `).appendTo(container);
 
-        window.fileupload_i18n_messages = {error: 'Error'};
+        window.fileupload_i18n_messages = { error: 'Error' };
 
-        $.fn.fileupload = function(action, opts) {
+        $.fn.fileupload = function (action, opts) {
             if (typeof action === 'object') {
                 this.data('fileupload-opts', action);
             } else if (action === 'option') {
@@ -142,24 +150,26 @@ QUnit.module('cone.fileupload.Fileupload.constructor', hooks => {
         delete $.fn.fileupload;
     });
 
-    QUnit.test('constructor initializes fileupload plugin', assert => {
+    QUnit.test('constructor initializes fileupload plugin', (assert) => {
         new Fileupload(elem);
 
-        let opts = elem.data('fileupload-opts');
+        const opts = elem.data('fileupload-opts');
         assert.true(opts.sequentialUploads);
         assert.strictEqual(opts.messages, window.fileupload_i18n_messages);
     });
 
-    QUnit.test('constructor sets acceptFileTypes if data attribute exists', assert => {
+    QUnit.test('constructor sets acceptFileTypes if data attribute exists', (assert) => {
         elem.data('accept_file_types', '/\\.(gif|jpg)$/i');
 
         new Fileupload(elem);
 
-        let option = elem.data('fileupload-option');
-        assert.ok(option.acceptFileTypes);
+        const option = elem.data('fileupload-option');
+        assert.true(option.acceptFileTypes instanceof RegExp);
+        assert.true(option.acceptFileTypes.test('image.GIF'));
+        assert.false(option.acceptFileTypes.test('image.png'));
     });
 
-    QUnit.test('constructor binds add files button handler', assert => {
+    QUnit.test('constructor binds add files button handler', (assert) => {
         new Fileupload(elem);
 
         let input_clicked = false;
@@ -172,7 +182,7 @@ QUnit.module('cone.fileupload.Fileupload.constructor', hooks => {
         assert.true(input_clicked);
     });
 
-    QUnit.test('delete click shows empty message when last item', assert => {
+    QUnit.test('delete click shows empty message when last item', (assert) => {
         $('<div class="template-download" />').appendTo(elem);
         $('<button class="delete" />').appendTo(elem);
 
@@ -184,7 +194,7 @@ QUnit.module('cone.fileupload.Fileupload.constructor', hooks => {
         assert.strictEqual($('.fileupload-empty', elem).css('display'), 'block');
     });
 
-    QUnit.test('delete click does not show empty when multiple items', assert => {
+    QUnit.test('delete click does not show empty when multiple items', (assert) => {
         $('<div class="template-download" />').appendTo(elem);
         $('<div class="template-download" />').appendTo(elem);
         $('<button class="delete" />').appendTo(elem);
@@ -198,20 +208,19 @@ QUnit.module('cone.fileupload.Fileupload.constructor', hooks => {
     });
 });
 
-QUnit.module('cone.fileupload.Fileupload.add_files_handle', hooks => {
-
-    let container,
-        elem,
-        ajax_origin;
+QUnit.module('cone.fileupload.Fileupload.add_files_handle', (hooks) => {
+    let container, elem, ajax_origin;
 
     hooks.beforeEach(() => {
         ajax_origin = $.ajax;
-        $.ajax = function() {
-            return {
-                always: function() { return this; },
-                done: function() { return this; }
-            };
-        };
+        $.ajax = () => ({
+            always: function () {
+                return this;
+            },
+            done: function () {
+                return this;
+            },
+        });
 
         container = $('<div />').appendTo('body');
         elem = $(`
@@ -223,7 +232,9 @@ QUnit.module('cone.fileupload.Fileupload.add_files_handle', hooks => {
         `).appendTo(container);
 
         window.fileupload_i18n_messages = {};
-        $.fn.fileupload = function() { return this; };
+        $.fn.fileupload = function () {
+            return this;
+        };
     });
 
     hooks.afterEach(() => {
@@ -233,8 +244,8 @@ QUnit.module('cone.fileupload.Fileupload.add_files_handle', hooks => {
         delete $.fn.fileupload;
     });
 
-    QUnit.test('add_files_handle prevents default and triggers file input', assert => {
-        let fileupload = new Fileupload(elem);
+    QUnit.test('add_files_handle prevents default and triggers file input', (assert) => {
+        const fileupload = new Fileupload(elem);
 
         let input_clicked = false;
         $('input:file', elem).on('click', (e) => {
@@ -242,28 +253,25 @@ QUnit.module('cone.fileupload.Fileupload.add_files_handle', hooks => {
             input_clicked = true;
         });
 
-        let evt = $.Event('click');
+        const evt = $.Event('click');
         fileupload.add_files_handle(evt);
 
         assert.true(evt.isDefaultPrevented());
         assert.true(input_clicked);
     });
 
-    QUnit.test('add_files_handle hides empty message', assert => {
-        let fileupload = new Fileupload(elem);
+    QUnit.test('add_files_handle hides empty message', (assert) => {
+        const fileupload = new Fileupload(elem);
 
-        let evt = $.Event('click');
+        const evt = $.Event('click');
         fileupload.add_files_handle(evt);
 
         assert.strictEqual($('.fileupload-empty', elem).css('display'), 'none');
     });
 });
 
-QUnit.module('cone.fileupload.Fileupload.load_existing', hooks => {
-
-    let container,
-        elem,
-        ajax_origin;
+QUnit.module('cone.fileupload.Fileupload.load_existing', (hooks) => {
+    let container, elem, ajax_origin;
 
     hooks.beforeEach(() => {
         ajax_origin = $.ajax;
@@ -276,9 +284,9 @@ QUnit.module('cone.fileupload.Fileupload.load_existing', hooks => {
 
         window.fileupload_i18n_messages = {};
 
-        $.fn.fileupload = function(action, opts) {
+        $.fn.fileupload = function (action) {
             if (action === 'option') {
-                return function() {};
+                return () => {};
             }
             return this;
         };
@@ -291,13 +299,17 @@ QUnit.module('cone.fileupload.Fileupload.load_existing', hooks => {
         delete $.fn.fileupload;
     });
 
-    QUnit.test('load_existing makes AJAX request with correct params', assert => {
+    QUnit.test('load_existing makes AJAX request with correct params', (assert) => {
         let ajax_opts;
-        $.ajax = function(opts) {
+        $.ajax = (opts) => {
             ajax_opts = opts;
             return {
-                always: function() { return this; },
-                done: function() { return this; }
+                always: function () {
+                    return this;
+                },
+                done: function () {
+                    return this;
+                },
             };
         };
 
@@ -307,30 +319,32 @@ QUnit.module('cone.fileupload.Fileupload.load_existing', hooks => {
         assert.strictEqual(ajax_opts.dataType, 'json');
     });
 
-    QUnit.test('load_existing adds processing class', assert => {
-        $.ajax = function() {
-            return {
-                always: function() { return this; },
-                done: function() { return this; }
-            };
-        };
+    QUnit.test('load_existing adds processing class', (assert) => {
+        $.ajax = () => ({
+            always: function () {
+                return this;
+            },
+            done: function () {
+                return this;
+            },
+        });
 
         new Fileupload(elem);
 
         assert.true(elem.hasClass('fileupload-processing'));
     });
 
-    QUnit.test('load_existing removes processing class on always', assert => {
+    QUnit.test('load_existing removes processing class on always', (assert) => {
         let always_callback;
-        $.ajax = function(opts) {
-            return {
-                always: function(cb) {
-                    always_callback = cb;
-                    return this;
-                },
-                done: function() { return this; }
-            };
-        };
+        $.ajax = () => ({
+            always: function (cb) {
+                always_callback = cb;
+                return this;
+            },
+            done: function () {
+                return this;
+            },
+        });
 
         new Fileupload(elem);
         always_callback.call(elem[0]);
@@ -338,52 +352,52 @@ QUnit.module('cone.fileupload.Fileupload.load_existing', hooks => {
         assert.false(elem.hasClass('fileupload-processing'));
     });
 
-    QUnit.test('load_existing hides empty when files exist', assert => {
+    QUnit.test('load_existing hides empty when files exist', (assert) => {
         let done_callback;
-        $.ajax = function(opts) {
-            return {
-                always: function() { return this; },
-                done: function(cb) {
-                    done_callback = cb;
-                    return this;
-                }
-            };
-        };
+        $.ajax = () => ({
+            always: function () {
+                return this;
+            },
+            done: function (cb) {
+                done_callback = cb;
+                return this;
+            },
+        });
 
-        $.fn.fileupload = function(action, name) {
+        $.fn.fileupload = function (action, name) {
             if (action === 'option' && name === 'done') {
-                return function() {};
+                return () => {};
             }
             return this;
         };
 
         new Fileupload(elem);
-        done_callback.call(elem[0], {files: [{name: 'test.txt'}]});
+        done_callback.call(elem[0], { files: [{ name: 'test.txt' }] });
 
         assert.strictEqual($('.fileupload-empty', elem).css('display'), 'none');
     });
 
-    QUnit.test('load_existing keeps empty visible when no files', assert => {
+    QUnit.test('load_existing keeps empty visible when no files', (assert) => {
         let done_callback;
-        $.ajax = function(opts) {
-            return {
-                always: function() { return this; },
-                done: function(cb) {
-                    done_callback = cb;
-                    return this;
-                }
-            };
-        };
+        $.ajax = () => ({
+            always: function () {
+                return this;
+            },
+            done: function (cb) {
+                done_callback = cb;
+                return this;
+            },
+        });
 
-        $.fn.fileupload = function(action, name) {
+        $.fn.fileupload = function (action, name) {
             if (action === 'option' && name === 'done') {
-                return function() {};
+                return () => {};
             }
             return this;
         };
 
         new Fileupload(elem);
-        done_callback.call(elem[0], {files: []});
+        done_callback.call(elem[0], { files: [] });
 
         assert.strictEqual($('.fileupload-empty', elem).css('display'), 'block');
     });

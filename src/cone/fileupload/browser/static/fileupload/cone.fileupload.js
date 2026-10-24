@@ -6,13 +6,13 @@ var cone_fileupload = (function (exports, $) {
         bdajax.path({
             path: bdajax.parsepath(url),
             target: url,
-            event: 'contextchanged:#layout'
+            event: 'contextchanged:#layout',
         });
         bdajax.trigger('contextchanged', '#layout', url);
     }
     class Fileupload {
         static initialize(context) {
-            let fileupload = $('#fileupload', context);
+            const fileupload = $('#fileupload', context);
             if (!fileupload.length) {
                 return;
             }
@@ -22,7 +22,7 @@ var cone_fileupload = (function (exports, $) {
             this.elem = elem;
             elem.fileupload({
                 sequentialUploads: true,
-                messages: fileupload_i18n_messages
+                messages: fileupload_i18n_messages,
             });
             $('#fileupload').on('click', '.delete', (e) => {
                 e.preventDefault();
@@ -30,16 +30,14 @@ var cone_fileupload = (function (exports, $) {
                     $('.fileupload-empty', this.elem).show();
                 }
             });
-            let accept_file_types = elem.data('accept_file_types');
+            const accept_file_types = elem.data('accept_file_types');
             if (accept_file_types) {
                 elem.fileupload('option', {
-                    acceptFileTypes: eval(accept_file_types)
+                    acceptFileTypes: eval(accept_file_types),
                 });
             }
             this.add_files_handle = this.add_files_handle.bind(this);
-            $('#toolbaraction-add-files', elem)
-                .off()
-                .on('click', this.add_files_handle);
+            $('#toolbaraction-add-files', elem).off().on('click', this.add_files_handle);
             this.load_existing();
         }
         add_files_handle(evt) {
@@ -52,20 +50,23 @@ var cone_fileupload = (function (exports, $) {
             $.ajax({
                 url: this.elem.data('url'),
                 dataType: 'json',
-                context: this.elem[0]
-            }).always(function () {
-                $(this).removeClass('fileupload-processing');
-            }).done(function (result) {
-                $(this).fileupload('option', 'done').call(
-                    this, $.Event('done'), {result: result});
-                if (result.files.length > 0) {
-                    $('.fileupload-empty', this).hide();
-                }
-            });
+                context: this.elem[0],
+            })
+                .always(function () {
+                    $(this).removeClass('fileupload-processing');
+                })
+                .done(function (result) {
+                    $(this)
+                        .fileupload('option', 'done')
+                        .call(this, $.Event('done'), { result: result });
+                    if (result.files.length > 0) {
+                        $('.fileupload-empty', this).hide();
+                    }
+                });
         }
     }
 
-    $(function() {
+    $(() => {
         bdajax.register(Fileupload.initialize, true);
     });
 
