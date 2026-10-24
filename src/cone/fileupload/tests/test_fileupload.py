@@ -14,11 +14,11 @@ from cone.fileupload.browser.fileupload import templates
 from cone.tile import render_tile
 from cone.tile.tests import TileTestCase
 from io import StringIO
+from pyramid.authorization import ALL_PERMISSIONS
+from pyramid.authorization import Allow
+from pyramid.authorization import Deny
+from pyramid.authorization import Everyone
 from pyramid.httpexceptions import HTTPForbidden
-from pyramid.security import ALL_PERMISSIONS
-from pyramid.security import Allow
-from pyramid.security import Deny
-from pyramid.security import Everyone
 import os
 import unittest
 
