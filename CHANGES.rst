@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.0.1 (unreleased)
+2.0.1 (2026-10-31)
 ------------------
 
 - Extend the JS tests to 100 % coverage, all modules including bundles are
