@@ -89,7 +89,7 @@ our model.
                 'view_url': '/{0}'.format(file.name),
                 'download_url': '/{0}/download'.format(file.name),
                 'delete_url': '/{0}/filedelete_handle'.format(file.name),
-                'delete_type': 'GET',
+                'delete_type': 'POST',
             }
 
         def read_existing(self):
@@ -102,7 +102,7 @@ our model.
                     'view_url': '/{0}'.format(node.name),
                     'download_url': '/{0}/download'.format(node.name),
                     'delete_url': '/{0}/filedelete_handle'.format(node.name),
-                    'delete_type': 'GET',
+                    'delete_type': 'POST',
                 })
             return files
 

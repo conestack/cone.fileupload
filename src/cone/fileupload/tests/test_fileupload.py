@@ -19,6 +19,7 @@ from pyramid.authorization import Allow
 from pyramid.authorization import Deny
 from pyramid.authorization import Everyone
 from pyramid.httpexceptions import HTTPForbidden
+from pyramid.request import Request
 import os
 import unittest
 
@@ -61,7 +62,7 @@ class ContainerFileUploadHandle(FileUploadHandle):
             'view_url': f'/{file.name}',
             'download_url': f'/{file.name}/download',
             'delete_url': f'/{file.name}/filedelete_handle',
-            'delete_type': 'GET',
+            'delete_type': 'POST',
         }
 
     def read_existing(self):
@@ -74,7 +75,7 @@ class ContainerFileUploadHandle(FileUploadHandle):
                     'view_url': f'/{node.name}',
                     'download_url': f'/{node.name}/download',
                     'delete_url': f'/{node.name}/filedelete_handle',
-                    'delete_type': 'GET',
+                    'delete_type': 'POST',
                 }
             )
         return files
@@ -174,6 +175,13 @@ class TestFileupload(TileTestCase):
                 ),
             )
 
+    def test_filedelete_handle_answers_post_only(self):
+        headers = {'Accept': 'application/json'}
+        request = Request.blank('/filedelete_handle', headers=headers)
+        self.assertEqual(request.get_response(self.layer.app).status_int, 404)
+        request = Request.blank('/filedelete_handle', method='POST', headers=headers)
+        self.assertEqual(request.get_response(self.layer.app).status_int, 403)
+
     def test_fileupload_handle(self):
         # Abstract file upload handle
         container = ContainerNode(name='container')
@@ -216,7 +224,7 @@ class TestFileupload(TileTestCase):
                     'view_url': '/test.txt',
                     'download_url': '/test.txt/download',
                     'delete_url': '/test.txt/filedelete_handle',
-                    'delete_type': 'GET',
+                    'delete_type': 'POST',
                 }
             ],
         )
@@ -242,7 +250,7 @@ class TestFileupload(TileTestCase):
                     'view_url': '/test.txt',
                     'download_url': '/test.txt/download',
                     'delete_url': '/test.txt/filedelete_handle',
-                    'delete_type': 'GET',
+                    'delete_type': 'POST',
                 }
             ],
         )

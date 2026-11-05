@@ -4,7 +4,9 @@ Changes
 2.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- ``filedelete_handle`` only accepts ``POST`` requests. A ``FileUploadHandle``
+  returning ``delete_type`` needs to return ``POST``.
+  [rnix]
 
 
 2.0.1 (2026-10-31)

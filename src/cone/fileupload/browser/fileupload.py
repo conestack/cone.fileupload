@@ -125,7 +125,7 @@ class FileUploadHandle:
                 'view_url': 'http://example.org/pic.jpg',
                 'download_url': 'http://example.org/pic.jpg/download',
                 'delete_url': 'http://example.org/pic.jpg/filedelete_handle',
-                'delete_type': 'GET',
+                'delete_type': 'POST',
             }
         ]
         """
@@ -140,7 +140,7 @@ class FileUploadHandle:
             'view_url': 'http://example.org/pic.jpg',
             'download_url': 'http://example.org/pic.jpg/download',
             'delete_url': 'http://example.org/pic.jpg/filedelete_handle',
-            'delete_type': 'GET',
+            'delete_type': 'POST',
         }
         """
         return {
@@ -153,6 +153,7 @@ class FileUploadHandle:
 @view_config(
     name='filedelete_handle',
     accept='application/json',
+    request_method='POST',
     renderer='json',
     permission='delete',
 )
