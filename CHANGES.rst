@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.1.0 (unreleased)
+2.1.0 (2026-11-09)
 ------------------
 
 - ``filedelete_handle`` only accepts ``POST`` requests. A ``FileUploadHandle``
